@@ -3,469 +3,1056 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PixelMixers — Mixing Pixels Into Remarkable Websites</title>
-  <meta name="description" content="PixelMixers is a boutique web studio for brands that care about craft. From clean landing pages to full digital artforms.">
+  <title>PixelMixers — Web Design Studio</title>
+  <meta name="description" content="PixelMixers is a boutique web design studio crafting clean business sites and experimental digital artforms.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/tokens.css">
-  <link rel="stylesheet" href="/assets/css/typography.css">
-  <link rel="stylesheet" href="/assets/css/reset.css">
-  <link rel="stylesheet" href="/assets/css/layout.css">
-  <link rel="stylesheet" href="/assets/css/components.css">
-  <link rel="stylesheet" href="/assets/css/animations.css">
-  <link rel="stylesheet" href="/assets/css/pages/home.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f5f5f0;
+      --text: #111;
+      --text-muted: #555;
+      --accent: #8b9a6d;
+      --accent-hover: #7a8a5e;
+      --card-border: rgba(0,0,0,0.08);
+      --card-shadow: 0 2px 20px rgba(0,0,0,0.04);
+      --card-shadow-hover: 0 8px 32px rgba(0,0,0,0.08);
+      --radius-card: 12px;
+      --radius-btn: 8px;
+      --font-heading: 'Syne', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --section-pad: clamp(80px, 12vw, 160px);
+      --container: 1200px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-weight: 300;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* ---- REVEAL ANIMATION ---- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---- SECTION LABEL ---- */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    /* ---- NAV ---- */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 20px 0;
+      transition: background 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .nav.scrolled {
+      background: rgba(245, 245, 240, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 14px 0;
+      box-shadow: 0 1px 0 var(--card-border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .wordmark {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 400;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-links .btn-contact {
+      background: var(--text);
+      color: var(--bg);
+      padding: 10px 24px;
+      border-radius: var(--radius-btn);
+      font-size: 14px;
+      font-weight: 400;
+      transition: background 0.3s ease;
+    }
+
+    .nav-links .btn-contact:hover {
+      background: var(--accent);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu.open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .mobile-menu a {
+      font-family: var(--font-heading);
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    /* ---- HERO ---- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 100px;
+      padding-bottom: 60px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: clamp(3rem, 7vw, 7rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 28px;
+      max-width: 900px;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 1.6vw, 1.25rem);
+      color: var(--text-muted);
+      max-width: 560px;
+      margin-bottom: 48px;
+      line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 16px 36px;
+      border-radius: var(--radius-btn);
+      font-size: 15px;
+      font-weight: 400;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .hero-cta:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      margin-top: 80px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* ---- ABOUT ---- */
+    .about {
+      padding: var(--section-pad) 0;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .about-text h2 {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+
+    .about-text p {
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      max-width: 520px;
+    }
+
+    .text-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 400;
+      color: var(--accent);
+      transition: gap 0.3s ease;
+    }
+
+    .text-link:hover {
+      gap: 12px;
+    }
+
+    .about-image {
+      background: linear-gradient(145deg, #d4dcc4, #b8c4a0);
+      border-radius: var(--radius-card);
+      aspect-ratio: 4/5;
+    }
+
+    /* ---- HOW WE WORK ---- */
+    .how-we-work {
+      padding: var(--section-pad) 0;
+    }
+
+    .how-we-work h2 {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 64px;
+    }
+
+    .steps {
+      max-width: 720px;
+    }
+
+    .step {
+      padding: 40px 0;
+      border-top: 1px solid var(--card-border);
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 24px;
+    }
+
+    .step:last-child {
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .step-number {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 32px;
+      color: var(--accent);
+    }
+
+    .step-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .step-desc {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    /* ---- SERVICES ---- */
+    .services {
+      padding: var(--section-pad) 0;
+    }
+
+    .services h2 {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 64px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .service-card {
+      background: #fff;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-card);
+      padding: 40px 36px;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+
+    .service-card:nth-child(1)::before { background: var(--accent); }
+    .service-card:nth-child(2)::before { background: #6b8bb5; }
+    .service-card:nth-child(3)::before { background: #b5896b; }
+    .service-card:nth-child(4)::before { background: #111; }
+
+    .service-card:hover {
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-4px);
+    }
+
+    .service-card h3 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .service-card p {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .service-price {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    /* ---- WORK ---- */
+    .work {
+      padding: var(--section-pad) 0;
+    }
+
+    .work h2 {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 64px;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .work-card {
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      background: #fff;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .work-card:hover {
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-4px);
+    }
+
+    .work-card-image {
+      aspect-ratio: 16/10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .work-card:nth-child(1) .work-card-image { background: linear-gradient(135deg, #c4d4b8, #98ad82); }
+    .work-card:nth-child(2) .work-card-image { background: linear-gradient(135deg, #b8c4d4, #8298ad); }
+    .work-card:nth-child(3) .work-card-image { background: linear-gradient(135deg, #d4c4b8, #ad9882); }
+    .work-card:nth-child(4) .work-card-image { background: linear-gradient(135deg, #c4b8d4, #9882ad); }
+
+    .work-card-image svg {
+      width: 48px;
+      height: 48px;
+      opacity: 0.4;
+    }
+
+    .work-card-info {
+      padding: 24px 28px;
+    }
+
+    .work-card-info h3 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .work-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 4px 12px;
+      background: var(--bg);
+      border-radius: 100px;
+      color: var(--text-muted);
+    }
+
+    /* ---- TEAM ---- */
+    .team {
+      padding: var(--section-pad) 0;
+    }
+
+    .team h2 {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 64px;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .team-card {
+      text-align: center;
+    }
+
+    .team-photo {
+      aspect-ratio: 1;
+      border-radius: var(--radius-card);
+      margin-bottom: 20px;
+    }
+
+    .team-card:nth-child(1) .team-photo { background: linear-gradient(145deg, #c4cdb8, #a8b496); }
+    .team-card:nth-child(2) .team-photo { background: linear-gradient(145deg, #b8c4cd, #96a8b4); }
+    .team-card:nth-child(3) .team-photo { background: linear-gradient(145deg, #cdc4b8, #b4a896); }
+
+    .team-card h3 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .team-card .role {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ---- TESTIMONIALS ---- */
+    .testimonials {
+      padding: var(--section-pad) 0;
+    }
+
+    .testimonial-wrap {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      min-height: 240px;
+    }
+
+    .quote-mark {
+      font-family: var(--font-heading);
+      font-size: 120px;
+      line-height: 1;
+      color: var(--accent);
+      opacity: 0.2;
+      margin-bottom: -40px;
+      display: block;
+    }
+
+    .testimonial-slide {
+      position: absolute;
+      inset: 0;
+      top: 80px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .testimonial-slide.active {
+      opacity: 1;
+    }
+
+    .testimonial-slide blockquote {
+      font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+      line-height: 1.7;
+      color: var(--text);
+      margin-bottom: 24px;
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .testimonial-slide cite {
+      font-style: normal;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .testimonial-dots {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 200px;
+    }
+
+    .testimonial-dots button {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: none;
+      background: var(--card-border);
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+      padding: 0;
+    }
+
+    .testimonial-dots button.active {
+      background: var(--accent);
+      transform: scale(1.3);
+    }
+
+    /* ---- CTA ---- */
+    .cta-section {
+      padding: var(--section-pad) 0;
+      text-align: center;
+    }
+
+    .cta-section h2 {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 36px;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: var(--text);
+      color: var(--bg);
+      padding: 18px 48px;
+      border-radius: var(--radius-btn);
+      font-size: 16px;
+      font-weight: 400;
+      font-family: var(--font-body);
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .cta-btn:hover {
+      background: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .cta-note {
+      margin-top: 20px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ---- FOOTER ---- */
+    .footer {
+      background: var(--text);
+      color: var(--bg);
+      padding: 64px 0 48px;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 32px;
+    }
+
+    .footer-links a {
+      font-size: 14px;
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      opacity: 1;
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      opacity: 0.4;
+      font-family: var(--font-mono);
+      width: 100%;
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .about-image {
+        aspect-ratio: 16/10;
+        order: -1;
+      }
+
+      .services-grid,
+      .work-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .team-grid {
+        grid-template-columns: 1fr;
+        max-width: 360px;
+        margin: 0 auto;
+      }
+
+      .step {
+        grid-template-columns: 48px 1fr;
+        gap: 16px;
+      }
+
+      .step-number {
+        font-size: 24px;
+      }
+
+      .hero-stats {
+        margin-top: 48px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- ============================================================
-       NAVIGATION
-       Fixed, transparent -> scrolled semi-transparent (no blur)
-       Logo left, center links with _underscore hover, Contact right
-       ============================================================ -->
-  <header class="site-nav" id="site-nav">
-    <div class="site-nav__inner">
-      <a href="/" class="site-nav__logo" aria-label="PixelMixers Home">
-        <svg class="logo-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect width="28" height="28" rx="6" fill="currentColor"/>
-          <rect x="6" y="6" width="7" height="7" rx="1.5" fill="#f5f6f6"/>
-          <rect x="15" y="6" width="7" height="7" rx="1.5" fill="#f5f6f6"/>
-          <rect x="6" y="15" width="7" height="7" rx="1.5" fill="#f5f6f6"/>
-          <rect x="15" y="15" width="7" height="7" rx="1.5" fill="#dae4af"/>
-        </svg>
-        <span class="logo-wordmark">pixelmixers</span>
-      </a>
-      <nav class="site-nav__links" aria-label="Primary navigation">
-        <ul role="list">
-          <li><a href="/the-studio/"><span class="nav-underscore">_</span>The Studio</a></li>
-          <li><a href="/our-work/"><span class="nav-underscore">_</span>Our Work</a></li>
-          <li><a href="/services/"><span class="nav-underscore">_</span>Services</a></li>
-          <li><a href="/the-team/"><span class="nav-underscore">_</span>The Team</a></li>
-          <li><a href="/lab/"><span class="nav-underscore">_</span>Lab</a></li>
-        </ul>
-      </nav>
-      <div class="site-nav__actions">
-        <a href="/contact/" class="btn btn--dark btn-sm">
-          <span class="btn__text">Contact</span>
-          <span class="btn__icon"></span>
-        </a>
-        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="/" class="wordmark">pixelmixers</a>
+      <div class="nav-links">
+        <a href="#about">The Studio</a>
+        <a href="#work">Our Work</a>
+        <a href="#services">Services</a>
+        <a href="#team">The Team</a>
+        <a href="#contact" class="btn-contact">Contact</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" onclick="closeMobileMenu()">The Studio</a>
+    <a href="#work" onclick="closeMobileMenu()">Our Work</a>
+    <a href="#services" onclick="closeMobileMenu()">Services</a>
+    <a href="#team" onclick="closeMobileMenu()">The Team</a>
+    <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="reveal">We mix pixels<br>into magic</h1>
+      <p class="hero-subtitle reveal">From clean business sites to experimental digital artforms — we build websites that resonate.</p>
+      <a href="#work" class="hero-cta reveal">See our work &rarr;</a>
+      <p class="hero-stats reveal">50+ projects &middot; 8 years &middot; 4 continents</p>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <div class="section-label">001/ About</div>
+          <h2>We are your<br>creative partner</h2>
+          <p>PixelMixers is a boutique web design studio built by people who believe the web should be beautiful, fast, and thoughtful. We partner with brands that care about craft — from early-stage startups to established companies ready for a digital refresh.</p>
+          <p>Our process is collaborative and transparent. No bloated teams, no handoffs to juniors, no surprises. Just sharp design thinking and meticulous development from start to finish.</p>
+          <a href="/the-studio" class="text-link">Read more &rarr;</a>
+        </div>
+        <div class="about-image reveal"></div>
       </div>
     </div>
-    <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
-      <ul role="list">
-        <li><a href="/the-studio/">The Studio</a></li>
-        <li><a href="/our-work/">Our Work</a></li>
-        <li><a href="/services/">Services</a></li>
-        <li><a href="/the-team/">The Team</a></li>
-        <li><a href="/lab/">Lab</a></li>
-        <li><a href="/contact/">Contact</a></li>
-      </ul>
+  </section>
+
+  <!-- HOW WE WORK -->
+  <section class="how-we-work">
+    <div class="container">
+      <div class="section-label reveal">002/ Process</div>
+      <h2 class="reveal">How we work</h2>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-number">01</div>
+          <div>
+            <div class="step-title">Discover &amp; Define</div>
+            <p class="step-desc">We begin by understanding your business, your audience, and your goals. Through workshops and research, we define the project scope and creative direction together.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-number">02</div>
+          <div>
+            <div class="step-title">Design in Motion</div>
+            <p class="step-desc">We design iteratively — sharing work early and often. You see real layouts, real interactions, and real progress. No waiting weeks for a big reveal.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-number">03</div>
+          <div>
+            <div class="step-title">Build &amp; Refine</div>
+            <p class="step-desc">Clean code, fast performance, pixel-perfect detail. We build on modern frameworks, test rigorously, and refine until every element feels right.</p>
+          </div>
+        </div>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main>
-
-    <!-- ============================================================
-         HERO — full viewport, dark background with organic SVG shapes
-         Content aligned to BOTTOM, floating tag labels at edges
-         ============================================================ -->
-    <section class="hero">
-      <div class="hero__bg" aria-hidden="true">
-        <svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          <rect width="1600" height="900" fill="#0a0a0a"/>
-          <ellipse cx="400" cy="350" rx="350" ry="250" fill="#141a10" opacity="0.6"/>
-          <ellipse cx="1100" cy="500" rx="400" ry="280" fill="#0f1410" opacity="0.5"/>
-          <path d="M0 600 Q400 400 800 550 Q1200 700 1600 500 L1600 900 L0 900Z" fill="#111" opacity="0.4"/>
-          <path d="M200 200 Q500 50 800 180 Q1100 310 1400 150" stroke="#1a2a14" stroke-width="1" fill="none" opacity="0.3"/>
-          <circle cx="300" cy="700" r="120" fill="#0d120a" opacity="0.4"/>
-          <circle cx="1300" cy="200" r="80" fill="#0d120a" opacity="0.3"/>
-        </svg>
-      </div>
-
-      <!-- Floating tag labels with thin border frames -->
-      <div class="hero__tags" aria-hidden="true">
-        <span class="hero__tag hero__tag--tl" data-reveal="fade-in">Design's boundless potential</span>
-        <span class="hero__tag hero__tag--tr" data-reveal="fade-in" data-reveal-delay="200">Technology's timeless precision</span>
-        <span class="hero__tag hero__tag--bl" data-reveal="fade-in" data-reveal-delay="400">Craft's drive for beauty</span>
-      </div>
-
-      <div class="hero__content">
-        <h1 class="hero__heading" data-reveal="fade-up">Mixing pixels<br>into remarkable<br>websites</h1>
-        <p class="hero__sub" data-reveal="fade-up" data-reveal-delay="150">
-          We support ambitious brands and businesses to come to the web and shine.
-        </p>
-        <div class="hero__ctas" data-reveal="fade-up" data-reveal-delay="300">
-          <a href="/our-work/" class="btn btn--accent">
-            <span class="btn__text">Know more</span>
-            <span class="btn__icon"></span>
-          </a>
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="container">
+      <div class="section-label reveal">003/ Services</div>
+      <h2 class="reveal">What we offer</h2>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <h3>Starter</h3>
+          <p>A sharp, well-crafted single-page site for freelancers, small businesses, or personal projects. Clean design, mobile-first, fast.</p>
+          <div class="service-price">from &euro;1,200</div>
+        </div>
+        <div class="service-card reveal">
+          <h3>Business</h3>
+          <p>Multi-page websites with CMS integration, SEO foundations, and custom interactions. Built for companies that need to scale their digital presence.</p>
+          <div class="service-price">from &euro;4,500</div>
+        </div>
+        <div class="service-card reveal">
+          <h3>Premium</h3>
+          <p>End-to-end digital experiences with custom animations, advanced architecture, e-commerce, and deep brand integration across every touchpoint.</p>
+          <div class="service-price">from &euro;12,000</div>
+        </div>
+        <div class="service-card reveal">
+          <h3>Artform</h3>
+          <p>Experimental, boundary-pushing web experiences. Generative art, immersive storytelling, WebGL — for clients who want to be remembered.</p>
+          <div class="service-price">bespoke</div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- Bottom border line -->
-      <div class="hero__bottom-line" aria-hidden="true"></div>
-    </section>
-
-
-    <!-- ============================================================
-         001/ ABOUT — We are your creative partner
-         Split: heading + body + bullets left, image right
-         ============================================================ -->
-    <section class="section">
-      <div class="glow-ellipse glow-ellipse--yellow glow-ellipse--top-right" aria-hidden="true"></div>
-      <div class="container">
-        <div class="split">
-          <div data-reveal="fade-up">
-            <div class="section-label"><span>001/</span><span>About</span></div>
-            <h2 class="s-heading">We are your creative partner</h2>
-            <div class="s-body">
-              <p>We're a boutique web studio for brands that care about craft. That means:</p>
-            </div>
-            <ul class="s-bullets">
-              <li>We don't use templates, we design from scratch</li>
-              <li>We don't cut corners, we sweat the details</li>
-              <li>We work side-by-side to turn ideas into digital experiences</li>
-            </ul>
-            <div style="margin-top: var(--space-8)">
-              <a href="/the-studio/" class="btn">
-                <span class="btn__text">Read more about us</span>
-                <span class="btn__icon"></span>
-              </a>
-            </div>
+  <!-- SELECTED WORK -->
+  <section class="work" id="work">
+    <div class="container">
+      <div class="section-label reveal">004/ Work</div>
+      <h2 class="reveal">Selected projects</h2>
+      <div class="work-grid">
+        <div class="work-card reveal">
+          <div class="work-card-image">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 8C20 16 12 20 12 28a12 12 0 0024 0c0-8-8-12-12-20z" stroke="#fff" stroke-width="2" fill="none"/></svg>
           </div>
-          <div data-reveal="fade-up" data-reveal-delay="150">
-            <div class="hero-image-section">
-              <svg viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg">
-                <rect width="640" height="480" fill="#E8E4DA"/>
-                <circle cx="320" cy="210" r="120" fill="#D0CCC0" opacity="0.5"/>
-                <path d="M100 340 Q250 240 400 320 Q550 400 640 300 L640 480 L0 480Z" fill="#C8C0B0" opacity="0.4"/>
-                <rect x="220" y="120" width="200" height="8" rx="4" fill="#B8B0A0" opacity="0.3"/>
-                <rect x="260" y="140" width="120" height="6" rx="3" fill="#B8B0A0" opacity="0.2"/>
-              </svg>
-            </div>
+          <div class="work-card-info">
+            <h3>GreenLeaf Botanicals</h3>
+            <span class="work-tag">E-commerce</span>
+          </div>
+        </div>
+        <div class="work-card reveal">
+          <div class="work-card-image">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="10" width="28" height="28" rx="4" stroke="#fff" stroke-width="2"/><path d="M18 24h12M24 18v12" stroke="#fff" stroke-width="2"/></svg>
+          </div>
+          <div class="work-card-info">
+            <h3>Nova Commerce</h3>
+            <span class="work-tag">Platform</span>
+          </div>
+        </div>
+        <div class="work-card reveal">
+          <div class="work-card-image">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 40L24 8l16 32" stroke="#fff" stroke-width="2"/><path d="M14 32l10-20 10 20" stroke="#fff" stroke-width="2"/></svg>
+          </div>
+          <div class="work-card-info">
+            <h3>Terrain Experimental</h3>
+            <span class="work-tag">Interactive</span>
+          </div>
+        </div>
+        <div class="work-card reveal">
+          <div class="work-card-image">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="24" r="14" stroke="#fff" stroke-width="2"/><circle cx="24" cy="24" r="8" stroke="#fff" stroke-width="2"/><circle cx="24" cy="24" r="2" fill="#fff"/></svg>
+          </div>
+          <div class="work-card-info">
+            <h3>Dusk Generative Art</h3>
+            <span class="work-tag">Generative</span>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-
-    <!-- ============================================================
-         002/ HOW WE WORK — Three process steps
-         Text left + image right, separated by 1px borders
-         ============================================================ -->
-    <section class="section">
-      <div class="glow-ellipse glow-ellipse--lavender glow-ellipse--bottom-left" aria-hidden="true"></div>
-      <div class="container">
-        <div class="section-label" data-reveal="fade-in"><span>002/</span><span>Our process</span></div>
-
-        <div class="process-row" data-reveal="fade-up">
-          <div>
-            <h3 class="process-row__heading">Spot the signal</h3>
-            <p class="process-row__body">We scout the brief, the brand, the audience. We listen before we sketch. Every great website starts with understanding what makes you different.</p>
-          </div>
-          <div class="process-row__image">
-            <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="320" fill="#EAE6DC"/><circle cx="240" cy="160" r="80" fill="#D4D0C4" opacity="0.5"/><rect x="140" y="240" width="200" height="6" rx="3" fill="#C4C0B4" opacity="0.3"/></svg>
-          </div>
+  <!-- TEAM -->
+  <section class="team" id="team">
+    <div class="container">
+      <div class="section-label reveal">005/ Team</div>
+      <h2 class="reveal">The people</h2>
+      <div class="team-grid">
+        <div class="team-card reveal">
+          <div class="team-photo"></div>
+          <h3>Marek Novak</h3>
+          <div class="role">Design</div>
         </div>
-
-        <div class="process-row" data-reveal="fade-up" data-reveal-delay="100">
-          <div>
-            <h3 class="process-row__heading">Build what matters</h3>
-            <p class="process-row__body">We design in the browser. Real fonts, real motion, real breakpoints. You see it come alive before production code is written.</p>
-          </div>
-          <div class="process-row__image">
-            <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="320" fill="#E4E8EC"/><rect x="80" y="60" width="320" height="180" rx="12" fill="#D0D4D8" opacity="0.4"/><circle cx="240" cy="260" r="20" fill="#C0C4C8" opacity="0.4"/></svg>
-          </div>
+        <div class="team-card reveal">
+          <div class="team-photo"></div>
+          <h3>Lucia Varga</h3>
+          <div class="role">Development</div>
         </div>
-
-        <div class="process-row" data-reveal="fade-up" data-reveal-delay="200">
-          <div>
-            <h3 class="process-row__heading">Scale and refine</h3>
-            <p class="process-row__body">Clean code, thorough QA, performance optimization. We hand off with documentation and stay available for what comes next.</p>
-          </div>
-          <div class="process-row__image">
-            <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="320" fill="#E8ECE4"/><path d="M0 200 Q120 100 240 180 Q360 260 480 160 L480 320 L0 320Z" fill="#C8D0C0" opacity="0.3"/></svg>
-          </div>
+        <div class="team-card reveal">
+          <div class="team-photo"></div>
+          <h3>Filip Kral</h3>
+          <div class="role">Strategy</div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-
-    <!-- ============================================================
-         003/ WHO WE WORK WITH
-         Split: heading + body + btn left, stacked audience cards right
-         ============================================================ -->
-    <section class="section">
-      <div class="glow-ellipse glow-ellipse--pink glow-ellipse--top-left" aria-hidden="true"></div>
-      <div class="container">
-        <div class="split">
-          <div data-reveal="fade-up">
-            <div class="section-label"><span>003/</span><span>Who we work with</span></div>
-            <h2 class="s-heading">Who we work with</h2>
-            <div class="s-body">
-              <p>We work with startups, growing businesses, and creative professionals to build the next generation of web experiences &mdash; by design, not by chance.</p>
-            </div>
-            <div style="margin-top: var(--space-8)">
-              <a href="/services/" class="btn">
-                <span class="btn__text">Learn more</span>
-                <span class="btn__icon"></span>
-              </a>
-            </div>
-          </div>
-          <div data-reveal="fade-up" data-reveal-delay="100">
-            <div class="audience-item">
-              <h3 class="audience-item__title">Startups</h3>
-              <div>
-                <p class="audience-item__body">First impression matters. We help new ventures launch with a web presence that matches their ambition.</p>
-                <div class="audience-item__link">
-                  <a href="/services/#starter" class="btn btn-sm">
-                    <span class="btn__text">Read more</span>
-                    <span class="btn__icon"></span>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="audience-item">
-              <h3 class="audience-item__title">Businesses</h3>
-              <div>
-                <p class="audience-item__body">Growing companies that need more than a brochure &mdash; e-commerce, CMS, conversion optimization, and proper architecture.</p>
-                <div class="audience-item__link">
-                  <a href="/services/#business" class="btn btn-sm">
-                    <span class="btn__text">Read more</span>
-                    <span class="btn__icon"></span>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="audience-item">
-              <h3 class="audience-item__title">Creatives</h3>
-              <div>
-                <p class="audience-item__body">Artists, studios, and brands who want their website to be an artwork in its own right. Experimental, immersive, memorable.</p>
-                <div class="audience-item__link">
-                  <a href="/services/#artform" class="btn btn-sm">
-                    <span class="btn__text">Read more</span>
-                    <span class="btn__icon"></span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-label reveal" style="text-align:center;">006/ Kind words</div>
+      <div class="testimonial-wrap reveal">
+        <span class="quote-mark">&ldquo;</span>
+        <div class="testimonial-slide active" data-slide="0">
+          <blockquote>PixelMixers completely transformed our online presence. The attention to detail and creative direction were beyond anything we expected. Our conversion rate doubled within the first month.</blockquote>
+          <cite>Anna Horska, GreenLeaf Botanicals</cite>
         </div>
-      </div>
-    </section>
-
-
-    <!-- ============================================================
-         004/ SELECTED WORK — 2x2 grid, rounded images, discover pills
-         ============================================================ -->
-    <section class="section">
-      <div class="glow-ellipse glow-ellipse--sage glow-ellipse--bottom-right" aria-hidden="true"></div>
-      <div class="container">
-        <div class="section-label" data-reveal="fade-in"><span>004/</span><span>Our work</span></div>
-        <h2 class="s-heading" data-reveal="fade-up">Selected work</h2>
-
-        <div class="work-grid">
-          <a href="/our-work/project/greenleaf-rebrand/" class="work-item" data-reveal="fade-up">
-            <div class="work-item__image">
-              <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="320" fill="#1A2F1A"/><circle cx="240" cy="140" r="80" fill="#2A4F2A" opacity="0.5"/><path d="M0 240 Q120 180 240 220 Q360 260 480 200 L480 320 L0 320Z" fill="#3A5F3A" opacity="0.3"/></svg>
-            </div>
-            <div class="work-item__info">
-              <div class="work-item__title">GreenLeaf Botanicals</div>
-              <div class="work-item__tag">Starter / Brand + Web</div>
-              <span class="btn btn-sm btn--pill">
-                <span class="btn__text">Discover</span>
-                <span class="btn__icon"></span>
-              </span>
-            </div>
-          </a>
-          <a href="/our-work/project/nova-ecommerce/" class="work-item" data-reveal="fade-up" data-reveal-delay="100">
-            <div class="work-item__image">
-              <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="320" fill="#0F1A2E"/><rect x="80" y="50" width="320" height="180" rx="12" fill="#1E2E4E" opacity="0.5"/><circle cx="240" cy="270" r="20" fill="#2E4E7E" opacity="0.5"/></svg>
-            </div>
-            <div class="work-item__info">
-              <div class="work-item__title">Nova Commerce Platform</div>
-              <div class="work-item__tag">Business / E-Commerce</div>
-              <span class="btn btn-sm btn--pill">
-                <span class="btn__text">Discover</span>
-                <span class="btn__icon"></span>
-              </span>
-            </div>
-          </a>
-          <a href="/our-work/project/terrain-experimental/" class="work-item" data-reveal="fade-up" data-reveal-delay="200">
-            <div class="work-item__image">
-              <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="320" fill="#2A2014"/><path d="M0 200 Q120 100 240 180 Q360 260 480 150 L480 320 L0 320Z" fill="#4A3A24" opacity="0.5"/><circle cx="360" cy="80" r="30" fill="#5A4A34" opacity="0.4"/></svg>
-            </div>
-            <div class="work-item__info">
-              <div class="work-item__title">Terrain Experimental</div>
-              <div class="work-item__tag">Artform / WebGL</div>
-              <span class="btn btn-sm btn--pill">
-                <span class="btn__text">Discover</span>
-                <span class="btn__icon"></span>
-              </span>
-            </div>
-          </a>
-          <a href="/our-work/project/dusk-artform/" class="work-item" data-reveal="fade-up" data-reveal-delay="300">
-            <div class="work-item__image">
-              <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="320" fill="#1A0F2E"/><circle cx="200" cy="150" r="70" fill="#2A1F4E" opacity="0.4"/><circle cx="310" cy="180" r="50" fill="#3A1F5E" opacity="0.3"/></svg>
-            </div>
-            <div class="work-item__info">
-              <div class="work-item__title">Dusk Generative Art</div>
-              <div class="work-item__tag">Artform / Canvas API</div>
-              <span class="btn btn-sm btn--pill">
-                <span class="btn__text">Discover</span>
-                <span class="btn__icon"></span>
-              </span>
-            </div>
-          </a>
+        <div class="testimonial-slide" data-slide="1">
+          <blockquote>Working with the team felt like a true partnership. They challenged our assumptions, pushed the design further, and delivered something we are genuinely proud of.</blockquote>
+          <cite>Tomas Reznik, Nova Commerce</cite>
         </div>
-
-        <div style="margin-top: var(--space-10)">
-          <a href="/our-work/" class="btn">
-            <span class="btn__text">View all projects</span>
-            <span class="btn__icon"></span>
-          </a>
+        <div class="testimonial-slide" data-slide="2">
+          <blockquote>We came to them with a wild idea and no brief. They turned it into one of the most talked-about digital art pieces of the year. Absolute wizards.</blockquote>
+          <cite>Marta Cibulkova, Dusk Studio</cite>
         </div>
-      </div>
-    </section>
-
-
-    <!-- ============================================================
-         005/ SERVICES TEASER — simple two-column split
-         ============================================================ -->
-    <section class="section">
-      <div class="glow-ellipse glow-ellipse--yellow glow-ellipse--bottom-left" aria-hidden="true"></div>
-      <div class="container">
-        <div class="split">
-          <div data-reveal="fade-up">
-            <div class="section-label"><span>005/</span><span>Services</span></div>
-            <h2 class="s-heading">From a clean landing page to a full digital artform</h2>
-            <div class="s-body">
-              <p>Four tiers, each designed around a different kind of ambition. Starter sites from &euro;1,200. Business builds from &euro;4,500. Premium web apps from &euro;12,000. And bespoke digital artforms.</p>
-            </div>
-            <div style="margin-top: var(--space-8)">
-              <a href="/services/" class="btn">
-                <span class="btn__text">See all services</span>
-                <span class="btn__icon"></span>
-              </a>
-            </div>
-          </div>
-          <div data-reveal="fade-up" data-reveal-delay="150">
-            <div class="hero-image-section">
-              <svg viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg">
-                <rect width="640" height="480" fill="#E0E4E8"/>
-                <rect x="60" y="50" width="520" height="320" rx="16" fill="#D0D4D8" opacity="0.4"/>
-                <circle cx="320" cy="420" r="16" fill="#C0C4C8" opacity="0.5"/>
-                <rect x="180" y="160" width="280" height="8" rx="4" fill="#B0B4B8" opacity="0.3"/>
-                <rect x="220" y="185" width="200" height="6" rx="3" fill="#B0B4B8" opacity="0.2"/>
-                <rect x="140" y="240" width="360" height="60" rx="8" fill="#C0C8D0" opacity="0.2"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- ============================================================
-         006/ MEET OUR TEAM — 3 portrait photos in a row
-         ============================================================ -->
-    <section class="section">
-      <div class="container">
-        <div class="section-label" data-reveal="fade-in"><span>006/</span><span>The team</span></div>
-        <h2 class="s-heading" data-reveal="fade-up">Meet our team</h2>
-
-        <div class="team-preview" data-reveal="fade-up" data-reveal-delay="100">
-          <a href="/the-team/team/marek-novak/" class="team-preview__item">
-            <div class="team-preview__photo">
-              <svg viewBox="0 0 480 720" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="720" fill="#EDEBE6"/><circle cx="240" cy="280" r="80" fill="#D8D4CC" opacity="0.6"/><rect x="180" y="400" width="120" height="8" rx="4" fill="#C8C4BC" opacity="0.4"/></svg>
-            </div>
-            <div class="team-preview__name">Marek Novak</div>
-            <div class="team-preview__role">Co-Founder, Design</div>
-          </a>
-          <a href="/the-team/team/lucia-varga/" class="team-preview__item">
-            <div class="team-preview__photo">
-              <svg viewBox="0 0 480 720" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="720" fill="#E8ECF0"/><circle cx="240" cy="280" r="80" fill="#D0D8E0" opacity="0.6"/><rect x="180" y="400" width="120" height="8" rx="4" fill="#C0C8D0" opacity="0.4"/></svg>
-            </div>
-            <div class="team-preview__name">Lucia Varga</div>
-            <div class="team-preview__role">Lead Developer</div>
-          </a>
-          <a href="/the-team/team/filip-kral/" class="team-preview__item">
-            <div class="team-preview__photo">
-              <svg viewBox="0 0 480 720" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="720" fill="#F0EDE8"/><circle cx="240" cy="280" r="80" fill="#E0D8CC" opacity="0.6"/><rect x="180" y="400" width="120" height="8" rx="4" fill="#D0C8BC" opacity="0.4"/></svg>
-            </div>
-            <div class="team-preview__name">Filip Kral</div>
-            <div class="team-preview__role">Co-Founder, Strategy</div>
-          </a>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- ============================================================
-         007/ TESTIMONIALS — centered quote with dots
-         ============================================================ -->
-    <section class="section testimonial-section">
-      <div class="container container--text text-center">
-        <div class="section-label" style="justify-content: center" data-reveal="fade-in"><span>007/</span><span>Testimonials</span></div>
-
-        <div class="testimonial-slide is-active" data-reveal="fade-up">
-          <p class="testimonial-quote">"PixelMixers didn't just build us a website &mdash; they built us a brand presence that converts."</p>
-          <p class="testimonial-author">&mdash; Martina Horakova, CEO, GreenLeaf Botanicals</p>
-        </div>
-        <div class="testimonial-slide">
-          <p class="testimonial-quote">"They pushed us to think bigger and delivered something we didn't think was possible."</p>
-          <p class="testimonial-author">&mdash; David Park, Founder, Nova Commerce</p>
-        </div>
-        <div class="testimonial-slide">
-          <p class="testimonial-quote">"PixelMixers understood the brief immediately and executed it flawlessly."</p>
-          <p class="testimonial-author">&mdash; Ingrid Svensson, Art Director, Terrain Studio</p>
-        </div>
-
         <div class="testimonial-dots">
-          <button class="testimonial-dot is-active" aria-label="Testimonial 1"></button>
-          <button class="testimonial-dot" aria-label="Testimonial 2"></button>
-          <button class="testimonial-dot" aria-label="Testimonial 3"></button>
+          <button class="active" data-dot="0" aria-label="Testimonial 1"></button>
+          <button data-dot="1" aria-label="Testimonial 2"></button>
+          <button data-dot="2" aria-label="Testimonial 3"></button>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-  </main>
+  <!-- CTA -->
+  <section class="cta-section" id="contact">
+    <div class="container">
+      <h2 class="reveal">Ready to make<br>something great?</h2>
+      <a href="mailto:hello@pixelmixers.studio" class="cta-btn reveal">Get in touch</a>
+      <p class="cta-note reveal">Usually respond within 24 hours</p>
+    </div>
+  </section>
 
-
-  <!-- ============================================================
-       FOOTER — full viewport dark, marquee, circular CTA, links
-       ============================================================ -->
-  <footer class="site-footer">
-    <div class="footer-marquee" aria-hidden="true">
-      <div class="footer-marquee__track">
-        <span>Have a seat</span><span>Have a seat</span><span>Have a seat</span>
-        <span>Have a seat</span><span>Have a seat</span><span>Have a seat</span>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <a href="/" class="wordmark">pixelmixers</a>
+        <div class="footer-links">
+          <a href="/contact">Contact</a>
+          <a href="/faq">FAQ</a>
+          <a href="/lab">Lab</a>
+          <a href="/legals">Legals</a>
+        </div>
+        <div class="footer-copy">&copy; 2026 PixelMixers. All rights reserved.</div>
       </div>
-    </div>
-
-    <a href="/contact/" class="footer-cta">Contact us</a>
-
-    <div class="footer-links">
-      <a href="/contact/">Contact</a>
-      <a href="/faq/">FAQ</a>
-      <a href="/lab/">Lab</a>
-      <a href="/legals/">Legals</a>
-    </div>
-
-    <div class="footer-bottom">
-      <p class="footer-copy">&copy; <span id="footer-year"></span> PixelMixers s.r.o.</p>
     </div>
   </footer>
 
-  <script>document.getElementById('footer-year').textContent = new Date().getFullYear();</script>
-  <script src="/assets/js/core/nav.js" defer></script>
-  <script src="/assets/js/core/scroll-reveal.js" defer></script>
-  <script src="/assets/js/core/cursor.js" defer></script>
-  <script src="/assets/js/pages/home.js" defer></script>
+  <script>
+    // ---- SCROLL REVEAL ----
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, i * 80);
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    reveals.forEach(el => revealObserver.observe(el));
+
+    // ---- NAV SCROLL ----
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // ---- MOBILE MENU ----
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+
+    function closeMobileMenu() {
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // ---- TESTIMONIAL ROTATION ----
+    const slides = document.querySelectorAll('.testimonial-slide');
+    const dots = document.querySelectorAll('.testimonial-dots button');
+    let currentSlide = 0;
+    let testimonialInterval;
+
+    function goToSlide(index) {
+      slides.forEach(s => s.classList.remove('active'));
+      dots.forEach(d => d.classList.remove('active'));
+      slides[index].classList.add('active');
+      dots[index].classList.add('active');
+      currentSlide = index;
+    }
+
+    function nextSlide() {
+      goToSlide((currentSlide + 1) % slides.length);
+    }
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        clearInterval(testimonialInterval);
+        goToSlide(parseInt(dot.dataset.dot));
+        testimonialInterval = setInterval(nextSlide, 5000);
+      });
+    });
+
+    testimonialInterval = setInterval(nextSlide, 5000);
+  </script>
+
 </body>
 </html>
