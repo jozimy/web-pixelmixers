@@ -1,0 +1,79 @@
+/* === Work Hero === */
+.work-hero {
+  padding-top: var(--space-20);
+  padding-bottom: var(--space-12);
+}
+
+.work-hero__heading {
+  font-family: var(--font-display);
+  font-size: var(--text-5xl);
+  font-weight: 800;
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+  max-width: 700px;
+}
+
+.work-hero__body {
+  font-size: var(--text-lg);
+  font-weight: 300;
+  color: var(--color-ash);
+  line-height: var(--leading-relaxed);
+  margin-top: var(--space-6);
+  max-width: 600px;
+}
+
+/* === Filter Tabs === */
+.filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-10);
+}
+
+.filter-tab {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.filter-tab:hover {
+  border-color: var(--color-violet);
+}
+
+.filter-tab.is-active {
+  background: var(--color-violet);
+  color: var(--color-chalk);
+  border-color: var(--color-violet);
+}
+
+/* === Portfolio Grid === */
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: var(--space-8);
+}
+
+.work-grid .card {
+  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 0.35s,
+              opacity 0.4s;
+}
+
+.work-grid .card.is-hidden {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .work-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,56 @@
+/* === Scroll Reveal === */
+.reveal-pending {
+  transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1),
+              transform 0.7s cubic-bezier(0.23,1,0.32,1);
+}
+.reveal--fade-up     { opacity: 0; transform: translateY(32px); }
+.reveal--fade-in     { opacity: 0; transform: none; }
+.reveal--slide-left  { opacity: 0; transform: translateX(-40px); }
+.reveal--slide-right { opacity: 0; transform: translateX(40px); }
+.reveal--scale-up    { opacity: 0; transform: scale(0.94); }
+.is-revealed         { opacity: 1 !important; transform: none !important; }
+
+/* === Custom Cursor === */
+@media (pointer: fine) {
+  .custom-cursor {
+    position: fixed; top: -20px; left: -20px;
+    width: 40px; height: 40px;
+    border: 2px solid var(--color-violet); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transition: width 0.25s, height 0.25s, border-color 0.25s, opacity 0.25s;
+    will-change: transform;
+  }
+  .custom-cursor.is-hovering {
+    width: 64px; height: 64px; top: -32px; left: -32px;
+    background: var(--glow-violet); border-color: var(--color-violet);
+  }
+  .custom-cursor__dot {
+    position: fixed; top: -3px; left: -3px;
+    width: 6px; height: 6px;
+    background: var(--color-violet); border-radius: 50%;
+    pointer-events: none; z-index: 9999; will-change: transform;
+  }
+}
+
+/* === Page transition === */
+.page-enter { animation: pageIn 0.5s ease both; }
+@keyframes pageIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+/* === Carousel === */
+.carousel { position: relative; overflow: hidden; }
+.carousel__track {
+  display: flex; transition: transform 0.5s cubic-bezier(0.23,1,0.32,1);
+  touch-action: pan-y;
+}
+.carousel__item { flex: 0 0 100%; min-width: 0; }
+.carousel__controls {
+  display: flex; justify-content: center; gap: var(--space-4); margin-top: var(--space-8);
+}
+.carousel__btn {
+  width: 48px; height: 48px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: var(--text-lg); transition: background 0.2s, opacity 0.2s;
+}
+.carousel__btn:disabled { opacity: 0.3; cursor: default; }
+.section--dark .carousel__btn { background: var(--color-chalk); color: var(--color-ink); }
+.section--dark .carousel__btn:hover:not(:disabled) { background: var(--color-violet); color: var(--color-chalk); }
