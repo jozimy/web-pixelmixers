@@ -3,884 +3,928 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PixelMixers — Digital Studio for the Web</title>
+<title>PixelMixers — Digital Design Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Inter:wght@300;400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-::selection { background: #c4d764; color: #0a0a0a; }
+:root {
+  --bg: #0c0c0c;
+  --text: #f0ede6;
+  --accent: #d4ff2b;
+  --muted: rgba(255,255,255,0.3);
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Space Grotesk', sans-serif;
+  --inter: 'Inter', sans-serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
 
 html {
   scroll-behavior: smooth;
   scrollbar-width: thin;
-  scrollbar-color: #c4d764 #0a0a0a;
+  scrollbar-color: var(--accent) var(--bg);
 }
 
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #0a0a0a; }
-::-webkit-scrollbar-thumb { background: #c4d764; border-radius: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
 
 body {
-  background: #0a0a0a;
-  color: #e8e8e0;
-  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--inter);
   font-weight: 300;
+  line-height: 1.6;
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
 }
 
-/* ==================== NOISE OVERLAY ==================== */
-.noise {
+/* NOISE OVERLAY */
+body::after {
+  content: '';
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
   pointer-events: none;
-  z-index: 9998;
-  opacity: 0.04;
+  z-index: 9999;
+  opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
-  background-size: 200px 200px;
+  background-size: 256px 256px;
 }
 
-/* ==================== CURSOR DOT ==================== */
+/* CUSTOM CURSOR */
 .cursor-dot {
-  position: fixed;
-  width: 8px; height: 8px;
-  background: #c4d764;
+  width: 12px; height: 12px;
+  background: var(--accent);
   border-radius: 50%;
+  position: fixed;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 10000;
   transform: translate(-50%, -50%);
-  transition: width 0.3s, height 0.3s, opacity 0.3s;
-  mix-blend-mode: difference;
+  transition: transform 0.1s ease;
 }
 
-/* ==================== NAV ==================== */
+.cursor-ring {
+  width: 40px; height: 40px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+}
+
+.cursor-ring.expand {
+  width: 70px; height: 70px;
+  border-color: rgba(212,255,43,0.5);
+}
+
+@media (min-width: 769px) {
+  * { cursor: none !important; }
+}
+
+/* NAV */
 nav {
   position: fixed;
   top: 0; left: 0; right: 0;
+  z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 24px 40px;
-  z-index: 100;
-  transition: background 0.4s, padding 0.4s;
+  transition: background 0.4s ease, backdrop-filter 0.4s ease;
 }
 
 nav.scrolled {
-  background: rgba(10, 10, 10, 0.9);
-  backdrop-filter: blur(12px);
-  padding: 16px 40px;
+  background: rgba(12,12,12,0.85);
+  backdrop-filter: blur(20px);
 }
 
-.nav-logo {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.2em;
+nav .logo {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 400;
   text-transform: uppercase;
-  color: #e8e8e0;
+  letter-spacing: 4px;
+  color: var(--text);
   text-decoration: none;
 }
 
-.nav-menu-btn {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #e8e8e0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px 0;
-  position: relative;
-}
-
-.nav-menu-btn::after {
-  content: '';
-  position: absolute;
-  bottom: 4px; left: 0;
-  width: 100%; height: 1px;
-  background: #c4d764;
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.nav-menu-btn:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-
-/* ==================== FULLSCREEN MENU ==================== */
-.fullscreen-menu {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: #0a0a0a;
-  z-index: 99;
+nav .nav-links {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 80px 10vw;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  gap: 32px;
 }
 
-.fullscreen-menu.open {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.fullscreen-menu a {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: clamp(3rem, 8vw, 6rem);
-  color: #e8e8e0;
+nav .nav-links a {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--muted);
   text-decoration: none;
-  display: block;
-  line-height: 1.2;
-  transform: translateY(60px);
-  opacity: 0;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
+  transition: color 0.3s ease;
 }
 
-.fullscreen-menu.open a {
-  transform: translateY(0);
-  opacity: 1;
+nav .nav-links a:hover {
+  color: var(--text);
 }
 
-.fullscreen-menu.open a:nth-child(1) { transition-delay: 0.1s; }
-.fullscreen-menu.open a:nth-child(2) { transition-delay: 0.18s; }
-.fullscreen-menu.open a:nth-child(3) { transition-delay: 0.26s; }
-.fullscreen-menu.open a:nth-child(4) { transition-delay: 0.34s; }
-.fullscreen-menu.open a:nth-child(5) { transition-delay: 0.42s; }
-
-.fullscreen-menu a:hover {
-  color: #c4d764;
-}
-
-.menu-footer {
-  position: absolute;
-  bottom: 40px;
-  left: 10vw;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: #555;
-  letter-spacing: 0.1em;
-}
-
-/* ==================== HERO ==================== */
+/* HERO */
 .hero {
   position: relative;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 40px;
+  width: 100%;
+  height: 100vh;
   overflow: hidden;
-}
-
-.hero-blob {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 60vw; height: 60vw;
-  max-width: 800px; max-height: 800px;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(circle at 30% 40%, #c4d764 0%, #2a3a00 40%, transparent 70%);
-  filter: blur(80px);
-  opacity: 0.3;
-  animation: blobMove 15s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes blobMove {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); }
-  25% { transform: translate(-40%, -55%) scale(1.1); }
-  50% { transform: translate(-55%, -45%) scale(0.95); }
-  75% { transform: translate(-45%, -50%) scale(1.05); }
-}
-
-.hero-text {
-  position: relative;
-  z-index: 2;
-}
-
-.hero-text h1 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: clamp(8rem, 19vw, 22rem);
-  line-height: 0.85;
-  color: #e8e8e0;
-  mix-blend-mode: difference;
-  margin-left: -0.06em;
-  user-select: none;
-}
-
-.hero-text h1 span {
-  display: block;
-}
-
-.hero-subtitle {
-  font-family: 'Inter', sans-serif;
-  font-weight: 300;
-  font-size: clamp(14px, 1.4vw, 18px);
-  color: #888;
-  margin-top: 40px;
-  letter-spacing: 0.02em;
-}
-
-.hero-bottom {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: 0 40px 40px;
   display: flex;
-  justify-content: space-between;
   align-items: flex-end;
 }
 
-.hero-line {
+.hero-bg {
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 1px;
-  background: rgba(255,255,255,0.08);
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
 }
 
-.scroll-indicator {
-  font-family: 'JetBrains Mono', monospace;
+.hero-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(to bottom, transparent 30%, rgba(12,12,12,0.85) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 40px 80px;
+  max-width: 900px;
+}
+
+.hero-label {
+  font-family: var(--mono);
   font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: #555;
+  letter-spacing: 4px;
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  line-height: 1.15;
+  color: var(--text);
+  margin-bottom: 40px;
+}
+
+.hero-scroll {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding-top: 20px;
 }
 
-.scroll-indicator::before {
-  content: '';
-  width: 20px; height: 1px;
-  background: #555;
-  display: block;
+.hero-scroll span {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--muted);
 }
 
-/* ==================== MARQUEE ==================== */
+.hero-scroll .arrow {
+  display: inline-block;
+  animation: bobDown 1.5s ease-in-out infinite;
+  color: var(--accent);
+  font-size: 14px;
+}
+
+@keyframes bobDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* MARQUEE STRIP */
 .marquee-strip {
-  border-top: 1px solid rgba(255,255,255,0.06);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
   overflow: hidden;
-  padding: 14px 0;
-  position: relative;
+  padding: 28px 0;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marqueeScroll 30s linear infinite;
+  animation: marquee 20s linear infinite;
 }
 
 .marquee-track span {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-family: var(--mono);
+  font-size: 13px;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: rgba(255,255,255,0.12);
+  letter-spacing: 6px;
+  color: rgba(255,255,255,0.08);
   white-space: nowrap;
-  padding-right: 4px;
+  padding-right: 16px;
 }
 
-@keyframes marqueeScroll {
+@keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
-/* ==================== ABOUT ==================== */
-.about {
-  padding: 16vh 40px 12vh;
-  display: grid;
-  grid-template-columns: 1fr 1.8fr;
-  gap: 40px;
-  align-items: start;
-  max-width: 1400px;
-  margin-left: auto;
+/* SECTION LABEL */
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--muted);
+  margin-bottom: 48px;
 }
 
-.about-number {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: clamp(5rem, 10vw, 10rem);
-  color: rgba(255,255,255,0.04);
-  line-height: 1;
-  user-select: none;
+.section-label em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+/* GALLERY */
+.gallery-section {
+  padding: 120px 40px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 12px;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  display: block;
+  text-decoration: none;
+}
+
+.gallery-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.gallery-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60%;
+  background: linear-gradient(to top, rgba(12,12,12,0.75) 0%, transparent 100%);
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.03);
+}
+
+.gallery-item:hover::after {
+  opacity: 0.6;
+}
+
+.gallery-item .item-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 24px;
+  z-index: 2;
+  transition: transform 0.4s ease;
+}
+
+.gallery-item:hover .item-info {
+  transform: translateY(-5px);
+}
+
+.gallery-item .item-cat {
+  font-family: var(--mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.gallery-item .item-name {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1.5rem;
+  color: var(--text);
+}
+
+.gallery-item .item-view {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-top: 10px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+}
+
+.gallery-item:hover .item-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.gi-1 { grid-column: 1 / 8; aspect-ratio: 3/4; }
+.gi-2 { grid-column: 8 / 13; aspect-ratio: 1/1; }
+.gi-3 { grid-column: 1 / 6; aspect-ratio: 4/3; }
+.gi-4 { grid-column: 6 / 13; aspect-ratio: 16/9; }
+.gi-5 { grid-column: 1 / 7; aspect-ratio: 16/10; }
+.gi-6 { grid-column: 7 / 13; aspect-ratio: 3/4; }
+
+/* ABOUT */
+.about-section {
+  padding: 120px 0;
+}
+
+.about-img-wrap {
+  width: 100%;
+  height: 60vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.about-img-wrap img {
+  width: 100%; height: 120%;
+  object-fit: cover;
+  position: relative;
+  top: 0;
+  will-change: transform;
+}
+
+.about-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  padding: 80px 40px 0;
 }
 
 .about-content h2 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: clamp(2rem, 3.5vw, 3.5rem);
-  color: #e8e8e0;
-  margin-bottom: 32px;
-  line-height: 1.15;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  line-height: 1.3;
+  color: var(--text);
 }
 
 .about-content p {
-  color: #777;
-  line-height: 1.75;
+  color: var(--muted);
   font-size: 15px;
-  max-width: 520px;
-  margin-bottom: 20px;
+  line-height: 1.8;
 }
 
-/* ==================== WORK ==================== */
-.work {
-  padding: 12vh 0;
+/* SERVICES */
+.services-section {
+  padding: 120px 40px;
 }
 
-.work-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding: 0 40px;
-  margin-bottom: 48px;
+.service-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
+  align-items: center;
+  padding: 32px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  transition: background 0.3s ease, padding 0.3s ease;
+  border-radius: 4px;
 }
 
-.work-header h2 {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: #555;
+.service-row:first-of-type {
+  border-top: 1px solid rgba(255,255,255,0.08);
 }
 
-.work-scroll {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding: 0 40px 32px;
-  cursor: grab;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.work-scroll::-webkit-scrollbar { display: none; }
-.work-scroll:active { cursor: grabbing; }
-
-.work-card {
-  flex-shrink: 0;
-  width: clamp(280px, 32vw, 420px);
-  height: 60vh;
-  min-height: 400px;
-  border-radius: 6px;
-  overflow: hidden;
-  position: relative;
-  scroll-snap-align: start;
-}
-
-.work-card-bg {
-  width: 100%; height: 100%;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.work-card:hover .work-card-bg {
-  transform: scale(1.05);
-}
-
-.work-card-info {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: 28px;
-  transform: translateY(8px);
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.work-card:hover .work-card-info {
-  transform: translateY(0);
-}
-
-.work-card-name {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
-  color: #fff;
-}
-
-.work-card-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: rgba(255,255,255,0.5);
-  margin-top: 6px;
-}
-
-.work-link {
-  display: block;
-  padding: 40px 40px 0;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 500;
-  font-size: 15px;
-  color: #e8e8e0;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.work-link:hover { color: #c4d764; }
-
-/* ==================== SERVICES ==================== */
-.services {
-  padding: 14vh 40px;
-}
-
-.services-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: #555;
-  margin-bottom: 48px;
-}
-
-.service-item {
-  display: flex;
-  align-items: baseline;
-  gap: 32px;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  padding: 20px 0;
-  cursor: default;
-  transition: padding-left 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.service-item:last-child {
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-
-.service-item:hover {
-  padding-left: 20px;
+.service-row:hover {
+  background: rgba(255,255,255,0.03);
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .service-name {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: clamp(3rem, 9vw, 9rem);
-  line-height: 1.05;
-  color: #e8e8e0;
-  transition: color 0.4s;
-  white-space: nowrap;
-}
-
-.service-item:hover .service-name {
-  color: #c4d764;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 1.8rem;
+  color: var(--text);
 }
 
 .service-desc {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--inter);
   font-weight: 300;
   font-size: 14px;
-  color: #666;
-  max-width: 260px;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.4s, transform 0.4s;
-  flex-shrink: 0;
+  color: var(--muted);
 }
 
-.service-item:hover .service-desc {
-  opacity: 1;
-  transform: translateY(0);
+.service-price {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 1px;
+  white-space: nowrap;
 }
 
-/* ==================== PHILOSOPHY ==================== */
-.philosophy {
-  padding: 14vh 40px;
-  max-width: 1000px;
-  margin: 0 auto;
+/* PHILOSOPHY */
+.philosophy-section {
+  position: relative;
+  padding: 15vh 40px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.philosophy-bg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.15;
+}
+
+.philosophy-section blockquote {
+  position: relative;
+  z-index: 2;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 3.5vw, 3rem);
+  line-height: 1.4;
+  color: var(--text);
+  max-width: 900px;
+  margin: 0 auto 32px;
+}
+
+.philosophy-section cite {
+  position: relative;
+  z-index: 2;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-style: normal;
+  color: var(--muted);
+  letter-spacing: 2px;
+}
+
+/* TEAM */
+.team-section {
+  padding: 120px 0;
+}
+
+.team-img-wrap {
+  width: 100%;
+  height: 50vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.team-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.team-img-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(12,12,12,0.45);
+}
+
+.team-members {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  padding: 60px 40px 0;
+}
+
+.team-member .t-name {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 1.1rem;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.team-member .t-role {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--muted);
+}
+
+/* CONTACT */
+.contact-section {
+  padding: 120px 40px;
   text-align: center;
 }
 
-.philosophy-line {
-  width: 100%; height: 1px;
-  background: rgba(255,255,255,0.06);
-}
-
-.philosophy blockquote {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: clamp(1.5rem, 3vw, 2.8rem);
-  line-height: 1.35;
-  color: #e8e8e0;
-  padding: 64px 0;
-}
-
-/* ==================== TEAM ==================== */
-.team {
-  padding: 12vh 40px;
-  max-width: 900px;
-}
-
-.team-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: #555;
+.contact-section h2 {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  color: var(--text);
   margin-bottom: 48px;
 }
 
-.team-member {
-  display: flex;
-  align-items: baseline;
-  gap: 20px;
-  padding: 20px 0;
-  border-top: 1px solid rgba(255,255,255,0.06);
-}
-
-.team-member:last-child {
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-
-.team-name {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 500;
-  font-size: 1.5rem;
-  color: #e8e8e0;
-}
-
-.team-role {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: #555;
-  letter-spacing: 0.1em;
-}
-
-/* ==================== FOOTER ==================== */
-footer {
-  padding: 16vh 40px 48px;
-}
-
-.footer-cta {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: clamp(3rem, 7vw, 8rem);
-  line-height: 1;
-  color: #e8e8e0;
-  margin-bottom: 32px;
-}
-
-.footer-email {
-  font-family: 'Inter', sans-serif;
-  font-weight: 300;
-  font-size: clamp(16px, 2vw, 22px);
-  color: #c4d764;
+.contact-btn {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--bg);
+  background: var(--accent);
+  padding: 18px 48px;
+  border: none;
+  border-radius: 50px;
   text-decoration: none;
-  transition: opacity 0.3s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.footer-email:hover { opacity: 0.7; }
+.contact-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(212,255,43,0.25);
+}
 
-.footer-meta {
-  font-family: 'JetBrains Mono', monospace;
+.contact-meta {
+  margin-top: 48px;
+  font-family: var(--mono);
   font-size: 11px;
-  color: #444;
-  margin-top: 16px;
-  letter-spacing: 0.05em;
+  color: var(--muted);
+  letter-spacing: 2px;
 }
 
-.footer-bottom {
-  margin-top: 80px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  font-family: 'JetBrains Mono', monospace;
+.contact-meta span {
+  margin: 0 16px;
+}
+
+/* FOOTER */
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 40px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+footer span, footer a {
+  font-family: var(--mono);
   font-size: 10px;
-  color: #333;
-  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 2px;
 }
 
-/* ==================== SCROLL REVEAL ==================== */
-[data-reveal] {
+footer .socials {
+  display: flex;
+  gap: 24px;
+}
+
+footer a:hover {
+  color: var(--text);
+}
+
+/* REVEAL ANIMATIONS */
+.reveal {
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
-[data-reveal].revealed {
+.reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ==================== RESPONSIVE ==================== */
+/* MOBILE */
 @media (max-width: 768px) {
+  .cursor-dot, .cursor-ring { display: none; }
+
   nav { padding: 16px 20px; }
-  nav.scrolled { padding: 12px 20px; }
-  .hero { padding: 0 20px; }
-  .hero-bottom { padding: 0 20px 28px; }
-  .about {
-    grid-template-columns: 1fr;
-    padding: 10vh 20px 8vh;
-    margin-left: 0;
-    max-width: 100%;
+  nav .nav-links { gap: 16px; }
+  nav .nav-links a { font-size: 9px; letter-spacing: 2px; }
+
+  .hero-content { padding: 0 20px 60px; }
+
+  .gallery-section { padding: 80px 20px; }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .gi-1,.gi-2,.gi-3,.gi-4,.gi-5,.gi-6 {
+    grid-column: 1 / -1;
+    aspect-ratio: 4/3;
   }
-  .about-number { font-size: 5rem; }
-  .work-header { padding: 0 20px; }
-  .work-scroll { padding: 0 20px 24px; }
-  .work-card { width: 80vw; height: 50vh; }
-  .services { padding: 10vh 20px; }
-  .service-desc { display: none; }
-  .philosophy { padding: 10vh 20px; }
-  .team { padding: 8vh 20px; }
-  footer { padding: 10vh 20px 32px; }
-  .cursor-dot { display: none; }
+
+  .about-content {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 40px 20px 0;
+  }
+
+  .services-section { padding: 80px 20px; }
+  .service-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .service-price { justify-self: start; }
+
+  .team-members {
+    grid-template-columns: 1fr;
+    padding: 40px 20px 0;
+  }
+
+  .contact-section { padding: 80px 20px; }
+
+  footer { padding: 20px; flex-direction: column; gap: 12px; }
 }
 </style>
 </head>
 <body>
 
-<!-- Noise overlay -->
-<div class="noise"></div>
-
-<!-- Cursor dot -->
+<!-- CUSTOM CURSOR -->
 <div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
 
-<!-- Nav -->
+<!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">PIXELMIXERS</a>
-  <button class="nav-menu-btn" id="menuToggle">MENU</button>
+  <a href="#" class="logo">PixelMixers</a>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#studio">Studio</a>
+    <a href="#contact">Contact</a>
+  </div>
 </nav>
 
-<!-- Fullscreen menu -->
-<div class="fullscreen-menu" id="fullscreenMenu">
-  <a href="#about">About</a>
-  <a href="#work">Work</a>
-  <a href="#services">Services</a>
-  <a href="#team">Team</a>
-  <a href="#contact">Contact</a>
-  <div class="menu-footer">Bratislava, SK &mdash; Est. 2018</div>
-</div>
-
-<!-- Hero -->
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-blob"></div>
-  <div class="hero-text">
-    <h1><span>PIXEL</span><span>MIXERS</span></h1>
-    <p class="hero-subtitle">Digital studio for the web</p>
-  </div>
-  <div class="hero-bottom">
-    <div class="scroll-indicator">Scroll</div>
-    <div class="hero-line"></div>
+  <img class="hero-bg" src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1920&q=80" alt="Abstract dark background" loading="lazy">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-label">Digital Design Studio</div>
+    <h1>We craft digital experiences that move people</h1>
+    <div class="hero-scroll">
+      <span>Scroll to explore</span>
+      <span class="arrow">&#8595;</span>
+    </div>
   </div>
 </section>
 
-<!-- Marquee -->
+<!-- MARQUEE -->
 <div class="marquee-strip">
   <div class="marquee-track">
-    <span>WEB DESIGN &middot; DEVELOPMENT &middot; E-COMMERCE &middot; BRANDING &middot; ARTFORMS &middot;&nbsp;</span>
-    <span>WEB DESIGN &middot; DEVELOPMENT &middot; E-COMMERCE &middot; BRANDING &middot; ARTFORMS &middot;&nbsp;</span>
-    <span>WEB DESIGN &middot; DEVELOPMENT &middot; E-COMMERCE &middot; BRANDING &middot; ARTFORMS &middot;&nbsp;</span>
-    <span>WEB DESIGN &middot; DEVELOPMENT &middot; E-COMMERCE &middot; BRANDING &middot; ARTFORMS &middot;&nbsp;</span>
-    <span>WEB DESIGN &middot; DEVELOPMENT &middot; E-COMMERCE &middot; BRANDING &middot; ARTFORMS &middot;&nbsp;</span>
-    <span>WEB DESIGN &middot; DEVELOPMENT &middot; E-COMMERCE &middot; BRANDING &middot; ARTFORMS &middot;&nbsp;</span>
+    <span>DESIGN &middot; DEVELOP &middot; BRAND &middot; LAUNCH &middot; REPEAT &middot;&nbsp;</span>
+    <span>DESIGN &middot; DEVELOP &middot; BRAND &middot; LAUNCH &middot; REPEAT &middot;&nbsp;</span>
+    <span>DESIGN &middot; DEVELOP &middot; BRAND &middot; LAUNCH &middot; REPEAT &middot;&nbsp;</span>
+    <span>DESIGN &middot; DEVELOP &middot; BRAND &middot; LAUNCH &middot; REPEAT &middot;&nbsp;</span>
+    <span>DESIGN &middot; DEVELOP &middot; BRAND &middot; LAUNCH &middot; REPEAT &middot;&nbsp;</span>
+    <span>DESIGN &middot; DEVELOP &middot; BRAND &middot; LAUNCH &middot; REPEAT &middot;&nbsp;</span>
+    <span>DESIGN &middot; DEVELOP &middot; BRAND &middot; LAUNCH &middot; REPEAT &middot;&nbsp;</span>
+    <span>DESIGN &middot; DEVELOP &middot; BRAND &middot; LAUNCH &middot; REPEAT &middot;&nbsp;</span>
   </div>
 </div>
 
-<!-- About -->
-<section class="about" id="about">
-  <div class="about-number" data-reveal>(01)</div>
+<!-- GALLERY -->
+<section class="gallery-section" id="work">
+  <div class="section-label reveal"><em>(01)</em> Selected Work</div>
+  <div class="gallery-grid">
+
+    <a href="#" class="gallery-item gi-1 reveal">
+      <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80" alt="GreenLeaf project" loading="lazy">
+      <div class="item-info">
+        <div class="item-cat">Brand &amp; Web</div>
+        <div class="item-name">GreenLeaf</div>
+        <div class="item-view">View project &rarr;</div>
+      </div>
+    </a>
+
+    <a href="#" class="gallery-item gi-2 reveal">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80" alt="Nova project" loading="lazy">
+      <div class="item-info">
+        <div class="item-cat">E-Commerce</div>
+        <div class="item-name">Nova</div>
+        <div class="item-view">View project &rarr;</div>
+      </div>
+    </a>
+
+    <a href="#" class="gallery-item gi-3 reveal">
+      <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" alt="Terrain project" loading="lazy">
+      <div class="item-info">
+        <div class="item-cat">Interactive</div>
+        <div class="item-name">Terrain</div>
+        <div class="item-view">View project &rarr;</div>
+      </div>
+    </a>
+
+    <a href="#" class="gallery-item gi-4 reveal">
+      <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0afa?w=800&q=80" alt="Dusk project" loading="lazy">
+      <div class="item-info">
+        <div class="item-cat">Art Direction</div>
+        <div class="item-name">Dusk</div>
+        <div class="item-view">View project &rarr;</div>
+      </div>
+    </a>
+
+    <a href="#" class="gallery-item gi-5 reveal">
+      <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80" alt="Pulse project" loading="lazy">
+      <div class="item-info">
+        <div class="item-cat">Dashboard &amp; Data</div>
+        <div class="item-name">Pulse</div>
+        <div class="item-view">View project &rarr;</div>
+      </div>
+    </a>
+
+    <a href="#" class="gallery-item gi-6 reveal">
+      <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&q=80" alt="Bloom project" loading="lazy">
+      <div class="item-info">
+        <div class="item-cat">Photography</div>
+        <div class="item-name">Bloom</div>
+        <div class="item-view">View project &rarr;</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="studio">
+  <div class="about-img-wrap">
+    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80" alt="Studio workspace" loading="lazy" class="parallax-img">
+  </div>
   <div class="about-content">
-    <h2 data-reveal>We don't do<br>average.</h2>
-    <p data-reveal>We are a small design and development studio based in Bratislava. We build websites, e-commerce experiences, and digital products for brands that refuse to blend in.</p>
-    <p data-reveal>Our approach is simple: understand the problem deeply, design with intention, and build with precision. No templates. No shortcuts. Every project is a custom piece of work.</p>
-  </div>
-</section>
-
-<!-- Work -->
-<section class="work" id="work">
-  <div class="work-header">
-    <h2 data-reveal>(02) Selected Work</h2>
-  </div>
-  <div class="work-scroll" id="workScroll">
-    <div class="work-card">
-      <svg class="work-card-bg" viewBox="0 0 420 600" preserveAspectRatio="xMidYMid slice">
-        <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1a3a1a"/><stop offset="50%" stop-color="#2d5a2d"/><stop offset="100%" stop-color="#0f1f0f"/></linearGradient></defs>
-        <rect width="420" height="600" fill="url(#g1)"/>
-        <circle cx="300" cy="200" r="120" fill="#c4d764" opacity="0.15"/>
-      </svg>
-      <div class="work-card-info">
-        <div class="work-card-name">Greenleaf</div>
-        <div class="work-card-tag">E-Commerce &middot; 2025</div>
-      </div>
+    <div class="reveal">
+      <div class="section-label"><em>(02)</em> About</div>
+      <h2>A small studio with a serious obsession for craft</h2>
     </div>
-    <div class="work-card">
-      <svg class="work-card-bg" viewBox="0 0 420 600" preserveAspectRatio="xMidYMid slice">
-        <defs><linearGradient id="g2" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#0a1628"/><stop offset="50%" stop-color="#1a3a6a"/><stop offset="100%" stop-color="#0f1f3f"/></linearGradient></defs>
-        <rect width="420" height="600" fill="url(#g2)"/>
-        <circle cx="140" cy="400" r="160" fill="#4488cc" opacity="0.1"/>
-      </svg>
-      <div class="work-card-info">
-        <div class="work-card-name">Nova</div>
-        <div class="work-card-tag">Web Design &middot; 2025</div>
-      </div>
-    </div>
-    <div class="work-card">
-      <svg class="work-card-bg" viewBox="0 0 420 600" preserveAspectRatio="xMidYMid slice">
-        <defs><linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2a1f14"/><stop offset="50%" stop-color="#4a3520"/><stop offset="100%" stop-color="#1a120a"/></linearGradient></defs>
-        <rect width="420" height="600" fill="url(#g3)"/>
-        <circle cx="210" cy="300" r="200" fill="#8a6530" opacity="0.1"/>
-      </svg>
-      <div class="work-card-info">
-        <div class="work-card-name">Terrain</div>
-        <div class="work-card-tag">Branding &middot; 2024</div>
-      </div>
-    </div>
-    <div class="work-card">
-      <svg class="work-card-bg" viewBox="0 0 420 600" preserveAspectRatio="xMidYMid slice">
-        <defs><linearGradient id="g4" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#1a0f2a"/><stop offset="50%" stop-color="#3a1f5a"/><stop offset="100%" stop-color="#0f0a1a"/></linearGradient></defs>
-        <rect width="420" height="600" fill="url(#g4)"/>
-        <circle cx="320" cy="450" r="140" fill="#7744aa" opacity="0.12"/>
-      </svg>
-      <div class="work-card-info">
-        <div class="work-card-name">Dusk</div>
-        <div class="work-card-tag">Web App &middot; 2024</div>
-      </div>
+    <div class="reveal">
+      <p>PixelMixers is a Bratislava-based design studio building digital products for brands that care about how things look, feel, and work. We are a tight crew of designers, developers, and strategists who believe the web deserves better than templates and trend-chasing. Every project starts with listening, moves through deliberate design, and ships as something we are genuinely proud of. We work with startups finding their voice and established companies ready to evolve theirs.</p>
     </div>
   </div>
-  <a href="#" class="work-link" data-reveal>View all projects &rarr;</a>
 </section>
 
-<!-- Services -->
-<section class="services" id="services">
-  <div class="services-label" data-reveal>(03) Services</div>
-  <div class="service-item" data-reveal>
-    <span class="service-name">Starter</span>
-    <span class="service-desc">One-page site for new brands finding their voice online.</span>
-  </div>
-  <div class="service-item" data-reveal>
-    <span class="service-name">Business</span>
-    <span class="service-desc">Multi-page web presence built for growth and conversion.</span>
-  </div>
-  <div class="service-item" data-reveal>
-    <span class="service-name">Premium</span>
-    <span class="service-desc">Full-scale digital experience with custom interactions.</span>
-  </div>
-  <div class="service-item" data-reveal>
-    <span class="service-name">Artform</span>
-    <span class="service-desc">Experimental, boundary-pushing web as a creative medium.</span>
-  </div>
-</section>
+<!-- SERVICES -->
+<section class="services-section">
+  <div class="section-label reveal"><em>(03)</em> Services</div>
 
-<!-- Philosophy -->
-<section class="philosophy">
-  <div class="philosophy-line" data-reveal></div>
-  <blockquote data-reveal>&ldquo;The internet is drowning in average. We&rsquo;d rather build one thing worth noticing than ten things worth forgetting.&rdquo;</blockquote>
-  <div class="philosophy-line" data-reveal></div>
-</section>
+  <div class="service-row reveal">
+    <div class="service-name">Starter</div>
+    <div class="service-desc">Clean, fast sites for new ventures</div>
+    <div class="service-price">From &euro;1,200</div>
+  </div>
 
-<!-- Team -->
-<section class="team" id="team">
-  <div class="team-label" data-reveal>(04) Team</div>
-  <div class="team-member" data-reveal>
-    <span class="team-name">Marek Novak</span>
-    <span class="team-role">&mdash; Design</span>
+  <div class="service-row reveal">
+    <div class="service-name">Business</div>
+    <div class="service-desc">E-commerce &amp; growth platforms</div>
+    <div class="service-price">From &euro;4,500</div>
   </div>
-  <div class="team-member" data-reveal>
-    <span class="team-name">Lucia Varga</span>
-    <span class="team-role">&mdash; Code</span>
+
+  <div class="service-row reveal">
+    <div class="service-name">Premium</div>
+    <div class="service-desc">Web apps &amp; SaaS interfaces</div>
+    <div class="service-price">From &euro;12,000</div>
   </div>
-  <div class="team-member" data-reveal>
-    <span class="team-name">Filip Kral</span>
-    <span class="team-role">&mdash; Strategy</span>
+
+  <div class="service-row reveal">
+    <div class="service-name">Artform</div>
+    <div class="service-desc">Bespoke digital experiences</div>
+    <div class="service-price">Let's talk</div>
   </div>
 </section>
 
-<!-- Footer -->
-<footer id="contact">
-  <div class="footer-cta" data-reveal>Let's work<br>together</div>
-  <a href="mailto:hello@pixelmixers.com" class="footer-email" data-reveal>hello@pixelmixers.com</a>
-  <div class="footer-meta" data-reveal>Bratislava, SK &middot; Est. 2018</div>
-  <div class="footer-bottom">&copy; 2026 PixelMixers</div>
+<!-- PHILOSOPHY -->
+<section class="philosophy-section">
+  <img class="philosophy-bg" src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=1200&q=80" alt="Abstract texture" loading="lazy">
+  <blockquote class="reveal">&ldquo;We'd rather build one thing worth noticing than ten things worth forgetting.&rdquo;</blockquote>
+  <cite class="reveal">&mdash; Marek Novak, Co-founder</cite>
+</section>
+
+<!-- TEAM -->
+<section class="team-section">
+  <div class="team-img-wrap">
+    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80" alt="Our team" loading="lazy">
+  </div>
+  <div class="team-members">
+    <div class="team-member reveal">
+      <div class="t-name">Marek Novak</div>
+      <div class="t-role">Co-founder &amp; Design Lead</div>
+    </div>
+    <div class="team-member reveal">
+      <div class="t-name">Lucia Horvatova</div>
+      <div class="t-role">Creative Director</div>
+    </div>
+    <div class="team-member reveal">
+      <div class="t-name">Tomas Kriz</div>
+      <div class="t-role">Lead Developer</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="section-label reveal"><em>(05)</em> Get in touch</div>
+  <h2 class="reveal">Ready to start a project?</h2>
+  <a href="mailto:hello@pixelmixers.com" class="contact-btn reveal">Let's talk &rarr;</a>
+  <div class="contact-meta reveal">
+    <span>hello@pixelmixers.com</span>
+    <span>&middot;</span>
+    <span>Bratislava, Slovakia</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>&copy; 2026 PixelMixers</span>
+  <div class="socials">
+    <a href="#">Instagram</a>
+    <a href="#">Dribbble</a>
+    <a href="#">LinkedIn</a>
+  </div>
 </footer>
 
 <script>
-(function() {
-  // ==================== CURSOR DOT ====================
-  const dot = document.querySelector('.cursor-dot');
-  let mouseX = 0, mouseY = 0, dotX = 0, dotY = 0;
+// CUSTOM CURSOR
+const dot = document.querySelector('.cursor-dot');
+const ring = document.querySelector('.cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
 
-  document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+if (window.innerWidth > 768) {
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top = my + 'px';
   });
 
-  function animateDot() {
-    dotX += (mouseX - dotX) * 0.15;
-    dotY += (mouseY - dotY) * 0.15;
-    dot.style.left = dotX + 'px';
-    dot.style.top = dotY + 'px';
-    requestAnimationFrame(animateDot);
+  function animateRing() {
+    rx += (mx - rx) * 0.15;
+    ry += (my - ry) * 0.15;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
   }
-  animateDot();
+  animateRing();
 
-  // ==================== NAV SCROLL ====================
-  const nav = document.querySelector('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 50);
-  }, { passive: true });
-
-  // ==================== FULLSCREEN MENU ====================
-  const menuToggle = document.getElementById('menuToggle');
-  const fullscreenMenu = document.getElementById('fullscreenMenu');
-  let menuOpen = false;
-
-  menuToggle.addEventListener('click', () => {
-    menuOpen = !menuOpen;
-    fullscreenMenu.classList.toggle('open', menuOpen);
-    menuToggle.textContent = menuOpen ? 'CLOSE' : 'MENU';
+  const hoverables = document.querySelectorAll('a, button, .gallery-item, .service-row, .contact-btn');
+  hoverables.forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('expand'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('expand'));
   });
+}
 
-  fullscreenMenu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      menuOpen = false;
-      fullscreenMenu.classList.remove('open');
-      menuToggle.textContent = 'MENU';
-    });
-  });
+// NAV SCROLL
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
 
-  // ==================== SCROLL REVEAL ====================
-  const revealEls = document.querySelectorAll('[data-reveal]');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('revealed');
-        observer.unobserve(entry.target);
+// REVEAL ON SCROLL
+const reveals = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const parent = entry.target.closest('.gallery-grid');
+      if (parent) {
+        const siblings = Array.from(parent.querySelectorAll('.reveal'));
+        const idx = siblings.indexOf(entry.target);
+        entry.target.style.transitionDelay = (idx * 0.12) + 's';
       }
-    });
-  }, { threshold: 0.15 });
-
-  revealEls.forEach(el => observer.observe(el));
-
-  // ==================== DRAG SCROLL (WORK SECTION) ====================
-  const workScroll = document.getElementById('workScroll');
-  let isDown = false, startX, scrollLeft;
-
-  workScroll.addEventListener('mousedown', (e) => {
-    isDown = true;
-    startX = e.pageX - workScroll.offsetLeft;
-    scrollLeft = workScroll.scrollLeft;
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
   });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-  workScroll.addEventListener('mouseleave', () => { isDown = false; });
-  workScroll.addEventListener('mouseup', () => { isDown = false; });
+reveals.forEach(el => revealObserver.observe(el));
 
-  workScroll.addEventListener('mousemove', (e) => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - workScroll.offsetLeft;
-    const walk = (x - startX) * 1.5;
-    workScroll.scrollLeft = scrollLeft - walk;
+// PARALLAX on about image
+const parallaxImg = document.querySelector('.parallax-img');
+if (parallaxImg && window.innerWidth > 768) {
+  window.addEventListener('scroll', () => {
+    const rect = parallaxImg.parentElement.getBoundingClientRect();
+    const speed = 0.3;
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      const offset = (rect.top - window.innerHeight) * speed;
+      parallaxImg.style.transform = 'translateY(' + offset + 'px)';
+    }
   });
-})();
+}
 </script>
 </body>
 </html>
