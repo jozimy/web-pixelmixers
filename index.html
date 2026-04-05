@@ -7,7 +7,7 @@
   <meta name="description" content="PixelMixers is a web design and development studio crafting websites from clean business sites to full digital artforms.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/typography.css">
   <link rel="stylesheet" href="/assets/css/reset.css">
@@ -18,26 +18,38 @@
 </head>
 <body>
 
-  <!-- Nav — anima style: logo left, links hidden behind MENU pill, contact right -->
+  <!-- Nav — anima style: logo left, center links with underscore hover, contact right -->
   <header class="site-nav" id="site-nav">
     <div class="site-nav__inner">
-      <div style="display:flex;align-items:center;gap:var(--space-2)">
-        <a href="/" class="site-nav__logo" aria-label="PixelMixers — Home">
-          <span class="logo-wordmark">pixelmixers</span>
-        </a>
-        <button class="nav-menu-pill nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">Menu</button>
-      </div>
+      <a href="/" class="site-nav__logo" aria-label="PixelMixers — Home">
+        <svg class="logo-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="28" height="28" rx="6" fill="currentColor"/>
+          <rect x="6" y="6" width="7" height="7" rx="1.5" fill="#f5f6f6"/>
+          <rect x="15" y="6" width="7" height="7" rx="1.5" fill="#f5f6f6"/>
+          <rect x="6" y="15" width="7" height="7" rx="1.5" fill="#f5f6f6"/>
+          <rect x="15" y="15" width="7" height="7" rx="1.5" fill="#dae4af"/>
+        </svg>
+        <span class="logo-wordmark">pixelmixers</span>
+      </a>
       <nav class="site-nav__links" aria-label="Primary navigation">
         <ul role="list">
-          <li><a href="/the-studio/">The Studio</a></li>
-          <li><a href="/our-work/">Our Work</a></li>
-          <li><a href="/services/">Services</a></li>
-          <li><a href="/the-team/">The Team</a></li>
-          <li><a href="/lab/">Lab</a></li>
+          <li><a href="/the-studio/"><span class="nav-underscore">_</span>The Studio</a></li>
+          <li><a href="/our-work/"><span class="nav-underscore">_</span>Our Work</a></li>
+          <li><a href="/services/"><span class="nav-underscore">_</span>Services</a></li>
+          <li><a href="/the-team/"><span class="nav-underscore">_</span>The Team</a></li>
+          <li><a href="/lab/"><span class="nav-underscore">_</span>Lab</a></li>
         </ul>
       </nav>
       <div class="site-nav__actions">
-        <a href="/contact/" class="btn-primary btn-sm">Contact <span class="icon-plus"></span></a>
+        <a href="/contact/" class="btn btn--dark btn-sm">
+          <span class="btn__text">Contact</span>
+          <span class="btn__icon"></span>
+        </a>
+        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
     </div>
     <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
@@ -54,45 +66,44 @@
 
   <main>
 
-    <!-- Hero — centered, large image behind text -->
+    <!-- Hero — full viewport, dark bg, content at bottom -->
     <section class="hero">
-      <div class="glow-ellipse glow-ellipse--tangerine glow-ellipse--top-right" aria-hidden="true"></div>
-      <div class="glow-ellipse glow-ellipse--violet glow-ellipse--bottom-left" aria-hidden="true"></div>
-      <!-- Large decorative image -->
       <div class="hero__bg" aria-hidden="true">
         <svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          <rect width="1600" height="900" fill="#F5F3EE"/>
-          <!-- Abstract organic shape like anima's nature image -->
-          <ellipse cx="800" cy="450" rx="500" ry="300" fill="#E8E4DA" opacity="0.5"/>
-          <path d="M300 300 Q500 100 800 250 Q1100 400 1300 200 Q1400 350 1200 500 Q1000 650 700 550 Q400 450 300 600 Q200 500 300 300Z" fill="#D8D4C8" opacity="0.4"/>
-          <path d="M600 200 Q750 150 900 300 Q1050 450 950 500 Q850 550 700 450 Q550 350 600 200Z" fill="#C8C4B8" opacity="0.35"/>
+          <rect width="1600" height="900" fill="#0a0a0a"/>
+          <ellipse cx="400" cy="350" rx="350" ry="250" fill="#141a10" opacity="0.6"/>
+          <ellipse cx="1100" cy="500" rx="400" ry="280" fill="#0f1410" opacity="0.5"/>
+          <path d="M0 600 Q400 400 800 550 Q1200 700 1600 500 L1600 900 L0 900Z" fill="#111" opacity="0.4"/>
+          <path d="M200 200 Q500 50 800 180 Q1100 310 1400 150" stroke="#1a2a14" stroke-width="1" fill="none" opacity="0.3"/>
+          <circle cx="300" cy="700" r="120" fill="#0d120a" opacity="0.4"/>
+          <circle cx="1300" cy="200" r="80" fill="#0d120a" opacity="0.3"/>
         </svg>
       </div>
+      <div class="hero__tags" aria-hidden="true">
+        <span class="hero__tag hero__tag--tl" data-reveal="fade-in">Design's boundless potential</span>
+        <span class="hero__tag hero__tag--tr" data-reveal="fade-in" data-reveal-delay="200">Technology's timeless precision</span>
+        <span class="hero__tag hero__tag--bl" data-reveal="fade-in" data-reveal-delay="400">Craft's drive for beauty</span>
+      </div>
       <div class="hero__content">
-        <div class="hero__eyebrow" data-reveal="fade-in">Crafting digital experiences</div>
         <h1 class="hero__heading" data-reveal="fade-up">Mixing pixels<br>into remarkable<br>websites</h1>
         <p class="hero__sub" data-reveal="fade-up" data-reveal-delay="150">
           We support ambitious brands and businesses to come to the web and shine.
         </p>
         <div class="hero__ctas" data-reveal="fade-up" data-reveal-delay="300">
-          <a href="/our-work/" class="btn-primary">Know more <span class="icon-plus"></span></a>
-          <a href="/services/" class="btn-secondary">Our services</a>
-        </div>
-        <div class="hero__pillars" data-reveal="fade-in" data-reveal-delay="500">
-          <span>Design's boundless potential</span>
-          <span>Technology's timeless precision</span>
-          <span>Craft's drive for beauty</span>
+          <a href="/our-work/" class="btn btn--accent">
+            <span class="btn__text">Know more</span>
+            <span class="btn__icon"></span>
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- 001/ We are your partner — two column like anima -->
+    <!-- 001/ We are your creative partner -->
     <section class="section">
-      <div class="glow-ellipse glow-ellipse--tangerine glow-ellipse--top-left" aria-hidden="true"></div>
       <div class="container">
         <div class="split">
           <div data-reveal="fade-up">
-            <span class="section-label">001/<span class="section-label__path">About</span></span>
+            <div class="section-label"><span>001/</span><span>About</span></div>
             <h2 class="s-heading">We are your creative partner</h2>
             <div class="s-body">
               <p>We're a boutique web studio for brands that care about craft. That means:</p>
@@ -103,11 +114,13 @@
               <li>We work side-by-side to turn ideas into digital experiences</li>
             </ul>
             <div style="margin-top:var(--space-8)">
-              <a href="/the-studio/" class="btn-primary">Read more about us <span class="icon-plus"></span></a>
+              <a href="/the-studio/" class="btn">
+                <span class="btn__text">Read more about us</span>
+                <span class="btn__icon"></span>
+              </a>
             </div>
           </div>
           <div data-reveal="fade-up" data-reveal-delay="150">
-            <!-- Large image like anima -->
             <div class="hero-image-section">
               <svg viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
                 <rect width="640" height="400" fill="#E8E4DA"/>
@@ -122,10 +135,10 @@
       </div>
     </section>
 
-    <!-- 002/ How we work — process rows with images -->
+    <!-- 002/ How we work -->
     <section class="section">
       <div class="container">
-        <span class="section-label" data-reveal="fade-in">002/<span class="section-label__path">Our process</span></span>
+        <div class="section-label" data-reveal="fade-in"><span>002/</span><span>Our process</span></div>
 
         <div class="process-row" data-reveal="fade-up">
           <div>
@@ -159,19 +172,21 @@
       </div>
     </section>
 
-    <!-- 003/ Who we work with — anima "Startups / Researchers / Corporates" layout -->
+    <!-- 003/ Who we work with -->
     <section class="section">
-      <div class="glow-ellipse glow-ellipse--violet glow-ellipse--top-right" aria-hidden="true"></div>
       <div class="container">
         <div class="split">
           <div data-reveal="fade-up">
-            <span class="section-label">003/<span class="section-label__path">Who we work with</span></span>
+            <div class="section-label"><span>003/</span><span>Who we work with</span></div>
             <h2 class="s-heading">Who we work with</h2>
             <div class="s-body">
               <p>We work with startups, growing businesses, and creative professionals to build the next generation of web experiences — by design, not by chance.</p>
             </div>
             <div style="margin-top:var(--space-8)">
-              <a href="/services/" class="btn-primary">Learn more about our methodology <span class="icon-plus"></span></a>
+              <a href="/services/" class="btn">
+                <span class="btn__text">Learn more about our methodology</span>
+                <span class="btn__icon"></span>
+              </a>
             </div>
           </div>
           <div data-reveal="fade-up" data-reveal-delay="100">
@@ -179,21 +194,36 @@
               <h3 class="audience-item__title">Startups</h3>
               <div>
                 <p class="audience-item__body">First impression matters. We help new ventures launch with a web presence that matches their ambition.</p>
-                <div class="audience-item__link"><a href="/services/#starter" class="btn-primary btn-sm">Read more <span class="icon-plus"></span></a></div>
+                <div class="audience-item__link">
+                  <a href="/services/#starter" class="btn btn-sm">
+                    <span class="btn__text">Read more</span>
+                    <span class="btn__icon"></span>
+                  </a>
+                </div>
               </div>
             </div>
             <div class="audience-item">
               <h3 class="audience-item__title">Businesses</h3>
               <div>
                 <p class="audience-item__body">Growing companies that need more than a brochure — e-commerce, CMS, conversion optimization, and proper architecture.</p>
-                <div class="audience-item__link"><a href="/services/#business" class="btn-primary btn-sm">Read more <span class="icon-plus"></span></a></div>
+                <div class="audience-item__link">
+                  <a href="/services/#business" class="btn btn-sm">
+                    <span class="btn__text">Read more</span>
+                    <span class="btn__icon"></span>
+                  </a>
+                </div>
               </div>
             </div>
             <div class="audience-item">
               <h3 class="audience-item__title">Creatives</h3>
               <div>
                 <p class="audience-item__body">Artists, studios, and brands who want their website to be an artwork in its own right. Experimental, immersive, memorable.</p>
-                <div class="audience-item__link"><a href="/services/#artform" class="btn-primary btn-sm">Read more <span class="icon-plus"></span></a></div>
+                <div class="audience-item__link">
+                  <a href="/services/#artform" class="btn btn-sm">
+                    <span class="btn__text">Read more</span>
+                    <span class="btn__icon"></span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -201,10 +231,10 @@
       </div>
     </section>
 
-    <!-- 004/ Selected work — venture cards like anima -->
+    <!-- 004/ Selected work -->
     <section class="section">
       <div class="container">
-        <span class="section-label" data-reveal="fade-in">004/<span class="section-label__path">Our work</span></span>
+        <div class="section-label" data-reveal="fade-in"><span>004/</span><span>Our work</span></div>
         <h2 class="s-heading" data-reveal="fade-up">Selected work</h2>
 
         <div class="work-grid">
@@ -214,8 +244,11 @@
             </div>
             <div class="work-item__info">
               <div class="work-item__title">GreenLeaf Botanicals</div>
-              <div class="work-item__tag">Starter · Brand + Web</div>
-              <div class="work-item__discover">Discover <span class="icon-plus"></span></div>
+              <div class="work-item__tag">Starter / Brand + Web</div>
+              <span class="btn btn-sm btn--pill">
+                <span class="btn__text">Discover</span>
+                <span class="btn__icon"></span>
+              </span>
             </div>
           </a>
           <a href="/our-work/project/nova-ecommerce/" class="work-item" data-reveal="fade-up" data-reveal-delay="100">
@@ -224,8 +257,11 @@
             </div>
             <div class="work-item__info">
               <div class="work-item__title">Nova Commerce Platform</div>
-              <div class="work-item__tag">Business · E-Commerce</div>
-              <div class="work-item__discover">Discover <span class="icon-plus"></span></div>
+              <div class="work-item__tag">Business / E-Commerce</div>
+              <span class="btn btn-sm btn--pill">
+                <span class="btn__text">Discover</span>
+                <span class="btn__icon"></span>
+              </span>
             </div>
           </a>
           <a href="/our-work/project/terrain-experimental/" class="work-item" data-reveal="fade-up" data-reveal-delay="200">
@@ -234,8 +270,11 @@
             </div>
             <div class="work-item__info">
               <div class="work-item__title">Terrain — Experimental</div>
-              <div class="work-item__tag">Artform · WebGL</div>
-              <div class="work-item__discover">Discover <span class="icon-plus"></span></div>
+              <div class="work-item__tag">Artform / WebGL</div>
+              <span class="btn btn-sm btn--pill">
+                <span class="btn__text">Discover</span>
+                <span class="btn__icon"></span>
+              </span>
             </div>
           </a>
           <a href="/our-work/project/dusk-artform/" class="work-item" data-reveal="fade-up" data-reveal-delay="300">
@@ -244,29 +283,39 @@
             </div>
             <div class="work-item__info">
               <div class="work-item__title">Dusk — Generative Art</div>
-              <div class="work-item__tag">Artform · Canvas API</div>
-              <div class="work-item__discover">Discover <span class="icon-plus"></span></div>
+              <div class="work-item__tag">Artform / Canvas API</div>
+              <span class="btn btn-sm btn--pill">
+                <span class="btn__text">Discover</span>
+                <span class="btn__icon"></span>
+              </span>
             </div>
           </a>
         </div>
 
-        <div style="margin-top:var(--space-10)"><a href="/our-work/" class="btn-ghost">Next <span class="arrow" aria-hidden="true">→</span></a></div>
+        <div style="margin-top:var(--space-10)">
+          <a href="/our-work/" class="btn">
+            <span class="btn__text">View all projects</span>
+            <span class="btn__icon"></span>
+          </a>
+        </div>
       </div>
     </section>
 
     <!-- 005/ Services teaser -->
     <section class="section">
-      <div class="glow-ellipse glow-ellipse--mint glow-ellipse--bottom-right" aria-hidden="true"></div>
       <div class="container">
         <div class="split">
           <div data-reveal="fade-up">
-            <span class="section-label">005/<span class="section-label__path">Services</span></span>
+            <div class="section-label"><span>005/</span><span>Services</span></div>
             <h2 class="s-heading">From a clean landing page to a full digital artform</h2>
             <div class="s-body">
-              <p>Four tiers, each designed around a different kind of ambition. Starter sites from €1,200. Business builds from €4,500. Premium web apps from €12,000. And bespoke digital artforms.</p>
+              <p>Four tiers, each designed around a different kind of ambition. Starter sites from &euro;1,200. Business builds from &euro;4,500. Premium web apps from &euro;12,000. And bespoke digital artforms.</p>
             </div>
             <div style="margin-top:var(--space-8)">
-              <a href="/services/" class="btn-primary">See all services <span class="icon-plus"></span></a>
+              <a href="/services/" class="btn">
+                <span class="btn__text">See all services</span>
+                <span class="btn__icon"></span>
+              </a>
             </div>
           </div>
           <div data-reveal="fade-up" data-reveal-delay="150">
@@ -288,7 +337,7 @@
     <!-- 006/ Meet our team -->
     <section class="section">
       <div class="container">
-        <span class="section-label" data-reveal="fade-in">006/<span class="section-label__path">The team</span></span>
+        <div class="section-label" data-reveal="fade-in"><span>006/</span><span>The team</span></div>
         <h2 class="s-heading" data-reveal="fade-up">Meet our team</h2>
 
         <div class="team-preview" data-reveal="fade-up" data-reveal-delay="100">
@@ -319,13 +368,12 @@
 
     <!-- 007/ Testimonials -->
     <section class="section testimonial-section">
-      <div class="glow-ellipse glow-ellipse--violet glow-ellipse--center" aria-hidden="true"></div>
       <div class="container container--text text-center">
-        <span class="section-label" style="text-align:center" data-reveal="fade-in">007/</span>
+        <div class="section-label" style="justify-content:center" data-reveal="fade-in"><span>007/</span></div>
 
         <div class="testimonial-slide is-active">
           <p class="testimonial-quote">"PixelMixers didn't just build us a website — they built us a brand presence that converts."</p>
-          <p class="testimonial-author">— Martina Horáková, CEO, GreenLeaf Botanicals</p>
+          <p class="testimonial-author">— Martina Horakova, CEO, GreenLeaf Botanicals</p>
         </div>
         <div class="testimonial-slide">
           <p class="testimonial-quote">"They pushed us to think bigger and delivered something we didn't think was possible."</p>
@@ -344,37 +392,28 @@
       </div>
     </section>
 
-    <!-- Final CTA -->
-    <section class="section final-cta">
-      <div class="container container--text text-center">
-        <h2 class="final-cta__heading" data-reveal="fade-up">Ready to make<br>something remarkable?</h2>
-        <p class="final-cta__body" data-reveal="fade-up" data-reveal-delay="100">
-          We take on a limited number of projects each quarter.
-        </p>
-        <div style="margin-top:var(--space-10)" data-reveal="fade-up" data-reveal-delay="200">
-          <a href="/contact/" class="btn-primary">Have a seat <span class="icon-plus"></span></a>
-        </div>
-        <p class="final-cta__note" data-reveal="fade-in" data-reveal-delay="400">
-          Usually respond within 24 hours
-        </p>
-      </div>
-    </section>
-
   </main>
 
-  <!-- Footer — light, minimal, centered links like anima -->
+  <!-- Footer — full viewport dark with marquee and circular CTA -->
   <footer class="site-footer">
-    <div class="site-footer__inner">
-      <div class="footer-top">
-        <a href="/contact/">Contact</a>
-        <a href="/faq/">FAQ</a>
-        <a href="/lab/">Lab</a>
-        <a href="/legals/">Legals</a>
-        <a href="/the-team/">The Team</a>
+    <div class="footer-marquee" aria-hidden="true">
+      <div class="footer-marquee__track">
+        <span>Have a seat</span><span>Have a seat</span><span>Have a seat</span>
+        <span>Have a seat</span><span>Have a seat</span><span>Have a seat</span>
       </div>
-      <div class="footer-bottom">
-        <p class="footer-copy">&copy; <span id="footer-year"></span> PixelMixers s.r.o.</p>
-      </div>
+    </div>
+
+    <a href="/contact/" class="footer-cta">Contact us</a>
+
+    <div class="footer-links">
+      <a href="/contact/">Contact</a>
+      <a href="/faq/">FAQ</a>
+      <a href="/lab/">Lab</a>
+      <a href="/legals/">Legals</a>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; <span id="footer-year"></span> PixelMixers s.r.o.</p>
     </div>
   </footer>
 
