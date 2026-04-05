@@ -3,34 +3,30 @@
   --font-body:    'Inter', sans-serif;
   --font-mono:    'JetBrains Mono', monospace;
 
-  /* Type scale — larger, more dramatic like anima.ai */
-  --text-xs:   clamp(0.65rem, 0.6rem + 0.2vw, 0.72rem);
-  --text-sm:   clamp(0.75rem, 0.7rem + 0.2vw, 0.82rem);
-  --text-base: clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
-  --text-md:   clamp(1.05rem, 0.95rem + 0.4vw, 1.2rem);
-  --text-lg:   clamp(1.2rem, 1rem + 0.7vw, 1.45rem);
-  --text-xl:   clamp(1.4rem, 1.1rem + 1vw, 1.75rem);
-  --text-2xl:  clamp(1.8rem, 1.3rem + 1.8vw, 2.5rem);
-  --text-3xl:  clamp(2.2rem, 1.5rem + 3vw, 3.8rem);
-  --text-4xl:  clamp(2.8rem, 1.8rem + 4.5vw, 5.5rem);
+  /* Type scale — large, editorial */
+  --text-xs:   0.7rem;
+  --text-sm:   0.82rem;
+  --text-base: 1rem;
+  --text-md:   1.15rem;
+  --text-lg:   1.35rem;
+  --text-xl:   clamp(1.4rem, 1.2rem + 0.8vw, 1.8rem);
+  --text-2xl:  clamp(1.8rem, 1.4rem + 1.5vw, 2.6rem);
+  --text-3xl:  clamp(2.4rem, 1.6rem + 3vw, 4rem);
+  --text-4xl:  clamp(3rem, 2rem + 4vw, 5.5rem);
   --text-5xl:  clamp(3.5rem, 2rem + 6vw, 8rem);
-  --text-6xl:  clamp(5rem, 3rem + 8vw, 11rem);
 
-  /* Line heights */
   --leading-tight:   1.05;
   --leading-snug:    1.2;
   --leading-normal:  1.6;
-  --leading-relaxed: 1.75;
+  --leading-relaxed: 1.8;
 
-  /* Letter spacing */
-  --tracking-tight:  -0.04em;
-  --tracking-normal:  0em;
-  --tracking-wide:    0.06em;
-  --tracking-wider:   0.12em;
-  --tracking-widest:  0.22em;
+  --tracking-tight:  -0.03em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.05em;
+  --tracking-wider:   0.1em;
+  --tracking-widest:  0.2em;
 }
 
-/* Global heading styles */
 h1, h2, h3 {
   font-family: var(--font-display);
   font-weight: 800;
@@ -38,12 +34,5 @@ h1, h2, h3 {
   line-height: var(--leading-tight);
 }
 
-/* Body text — slightly lighter for that airy feel */
-body {
-  font-weight: 300;
-  letter-spacing: 0.005em;
-}
-
-p {
-  line-height: var(--leading-relaxed);
-}
+body { font-weight: 300; }
+p { line-height: var(--leading-relaxed); }
