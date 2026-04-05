@@ -1,14 +1,19 @@
 :root {
-  --font-display: 'Syne', sans-serif;
+  /* Display: serif italic like anima — DM Serif Display */
+  --font-display: 'DM Serif Display', serif;
+  /* Body: clean sans */
   --font-body:    'Inter', sans-serif;
+  /* Mono: for labels */
   --font-mono:    'JetBrains Mono', monospace;
+  /* Nav/buttons: geometric sans */
+  --font-ui:      'Inter', sans-serif;
 
-  /* Type scale — large, editorial */
+  /* Type scale */
   --text-xs:   0.7rem;
-  --text-sm:   0.82rem;
-  --text-base: 1rem;
-  --text-md:   1.15rem;
-  --text-lg:   1.35rem;
+  --text-sm:   0.8rem;
+  --text-base: 0.95rem;
+  --text-md:   1.1rem;
+  --text-lg:   1.3rem;
   --text-xl:   clamp(1.4rem, 1.2rem + 0.8vw, 1.8rem);
   --text-2xl:  clamp(1.8rem, 1.4rem + 1.5vw, 2.6rem);
   --text-3xl:  clamp(2.4rem, 1.6rem + 3vw, 4rem);
@@ -16,22 +21,23 @@
   --text-5xl:  clamp(3.5rem, 2rem + 6vw, 8rem);
 
   --leading-tight:   1.05;
-  --leading-snug:    1.2;
+  --leading-snug:    1.15;
   --leading-normal:  1.6;
-  --leading-relaxed: 1.8;
+  --leading-relaxed: 1.75;
 
-  --tracking-tight:  -0.03em;
+  --tracking-tight:  -0.02em;
   --tracking-normal:  0;
-  --tracking-wide:    0.05em;
-  --tracking-wider:   0.1em;
+  --tracking-wide:    0.06em;
+  --tracking-wider:   0.12em;
   --tracking-widest:  0.2em;
 }
 
 h1, h2, h3 {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 400;
+  font-style: italic;
   letter-spacing: var(--tracking-tight);
-  line-height: var(--leading-tight);
+  line-height: var(--leading-snug);
 }
 
 body { font-weight: 300; }
