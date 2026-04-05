@@ -1,7 +1,23 @@
-.container { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter); }
-.container--text { max-width: var(--container-text); margin-left: auto; margin-right: auto; }
+/* ==========================================================================
+   Layout
+   White rounded card sections floating on #f5f6f6 background,
+   horizontal margin like anima.ai
+   ========================================================================== */
 
-/* Sections as white rounded cards like anima */
+/* ---- Container ---- */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.container--text {
+  max-width: var(--container-text);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---- Card Sections (white rounded panels on gray bg) ---- */
 .section {
   background: var(--color-white);
   border-radius: var(--radius-md);
@@ -10,28 +26,63 @@
   position: relative;
   overflow: hidden;
 }
+
 .section--dark {
   background: var(--color-black);
   color: var(--color-white);
 }
+
 .section--transparent {
   background: transparent;
   border-radius: 0;
-  margin: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
-.grid { display: grid; gap: var(--space-8); }
+/* ---- Grid Helpers ---- */
+.grid {
+  display: grid;
+  gap: var(--space-8);
+}
+
 .grid--2 { grid-template-columns: repeat(2, 1fr); }
 .grid--3 { grid-template-columns: repeat(3, 1fr); }
 
-.flex { display: flex; }
+/* ---- Flex Helpers ---- */
+.flex         { display: flex; }
 .flex--center { align-items: center; justify-content: center; }
-.flex--col { flex-direction: column; }
-.text-center { text-align: center; }
+.flex--col    { flex-direction: column; }
+.text-center  { text-align: center; }
+
+/* ---- Two-column split (60/40 like anima) ---- */
+.split {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: var(--space-16);
+  align-items: start;
+}
 
 @media (max-width: 1024px) {
   .grid--3 { grid-template-columns: repeat(2, 1fr); }
 }
-@media (max-width: 640px) {
+
+@media (max-width: 768px) {
+  .split {
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+  }
   .grid--2, .grid--3 { grid-template-columns: 1fr; }
 }
+
+/* ---- Corner Lines (anima decorative detail) ---- */
+.corner-line {
+  position: absolute;
+  width: 1px;
+  height: 1rem;
+  background: var(--color-border);
+}
+
+.corner-line--tl { top: 0; left: 0; }
+.corner-line--tr { top: 0; right: 0; }
+.corner-line--bl { bottom: 0; left: 0; }
+.corner-line--br { bottom: 0; right: 0; }

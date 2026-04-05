@@ -1,79 +1,108 @@
-/* =============================================
-   Animations — slow, elegant, anima.ai style
-   ============================================= */
+/* ==========================================================================
+   Animations
+   Scroll reveal (slide up 30-50px, fade, 1s ease-out),
+   glow ellipse fade-in, custom cursor, page entrance
+   ========================================================================== */
 
-/* === Scroll Reveal — slower, more graceful === */
+/* ---- Scroll Reveal ---- */
 .reveal-pending {
-  transition: opacity 1s cubic-bezier(0.23,1,0.32,1),
-              transform 1s cubic-bezier(0.23,1,0.32,1);
+  transition: opacity 1s var(--ease-out),
+              transform 1s var(--ease-out);
 }
-.reveal--fade-up     { opacity: 0; transform: translateY(50px); }
-.reveal--fade-in     { opacity: 0; transform: none; }
-.reveal--slide-left  { opacity: 0; transform: translateX(-50px); }
-.reveal--slide-right { opacity: 0; transform: translateX(50px); }
-.reveal--scale-up    { opacity: 0; transform: scale(0.92); }
-.is-revealed         { opacity: 1 !important; transform: none !important; }
 
-/* === Custom Cursor — subtle === */
+.reveal--fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.reveal--fade-in {
+  opacity: 0;
+  transform: none;
+}
+
+.reveal--slide-left {
+  opacity: 0;
+  transform: translateX(-40px);
+}
+
+.reveal--slide-right {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+.reveal--scale-up {
+  opacity: 0;
+  transform: scale(0.94);
+}
+
+.is-revealed {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+
+/* ---- Custom Cursor ---- */
 @media (pointer: fine) {
   .custom-cursor {
-    position: fixed; top: -18px; left: -18px;
-    width: 36px; height: 36px;
-    border: 1.5px solid rgba(107,63,231,0.4); border-radius: 50%;
-    pointer-events: none; z-index: 9999;
-    transition: width 0.35s cubic-bezier(0.23,1,0.32,1),
-                height 0.35s cubic-bezier(0.23,1,0.32,1),
+    position: fixed;
+    top: -18px;
+    left: -18px;
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid rgba(2, 2, 2, 0.15);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: width 0.35s var(--ease-out),
+                height 0.35s var(--ease-out),
                 border-color 0.35s,
                 background 0.35s;
     will-change: transform;
   }
+
   .custom-cursor.is-hovering {
-    width: 56px; height: 56px; top: -28px; left: -28px;
-    background: rgba(107,63,231,0.06);
-    border-color: rgba(107,63,231,0.6);
+    width: 52px;
+    height: 52px;
+    top: -26px;
+    left: -26px;
+    background: rgba(218, 228, 175, 0.12);
+    border-color: rgba(2, 2, 2, 0.25);
   }
+
   .custom-cursor__dot {
-    position: fixed; top: -2.5px; left: -2.5px;
-    width: 5px; height: 5px;
-    background: var(--color-violet); border-radius: 50%;
-    pointer-events: none; z-index: 9999; will-change: transform;
+    position: fixed;
+    top: -2.5px;
+    left: -2.5px;
+    width: 5px;
+    height: 5px;
+    background: var(--text-primary);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    will-change: transform;
   }
 }
 
-/* === Page entrance === */
-.page-enter { animation: pageIn 0.8s cubic-bezier(0.23,1,0.32,1) both; }
+
+/* ---- Page Entrance ---- */
+.page-enter {
+  animation: pageIn 0.8s var(--ease-out) both;
+}
+
 @keyframes pageIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
-/* === Carousel — smooth === */
-.carousel { position: relative; overflow: hidden; }
-.carousel__track {
-  display: flex;
-  transition: transform 0.7s cubic-bezier(0.23,1,0.32,1);
-  touch-action: pan-y;
-}
-.carousel__item { flex: 0 0 100%; min-width: 0; }
-.carousel__controls {
-  display: flex; justify-content: center;
-  gap: var(--space-4); margin-top: var(--space-10);
-}
-.carousel__btn {
-  width: 48px; height: 48px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: var(--text-md);
-  transition: all 0.35s cubic-bezier(0.23,1,0.32,1);
-}
-.carousel__btn:disabled { opacity: 0.2; cursor: default; }
-.section--dark .carousel__btn {
-  background: rgba(255,255,255,0.08); color: var(--color-chalk);
-  border: 1px solid rgba(255,255,255,0.12);
-}
-.section--dark .carousel__btn:hover:not(:disabled) {
-  background: var(--color-violet); color: var(--color-chalk);
-  border-color: var(--color-violet);
-}
 
-/* === Smooth link transitions === */
-a, button { transition: color 0.3s cubic-bezier(0.23,1,0.32,1), background 0.3s cubic-bezier(0.23,1,0.32,1); }
+/* ---- Smooth link/button transitions ---- */
+a, button {
+  transition: color 0.3s var(--ease-out),
+              background 0.3s var(--ease-out);
+}

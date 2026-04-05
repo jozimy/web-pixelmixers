@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PixelMixers — We Mix Pixels Into Magic</title>
-  <meta name="description" content="PixelMixers is a web design and development studio crafting websites from clean business sites to full digital artforms.">
+  <title>PixelMixers — Mixing Pixels Into Remarkable Websites</title>
+  <meta name="description" content="PixelMixers is a boutique web studio for brands that care about craft. From clean landing pages to full digital artforms.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
@@ -18,10 +18,14 @@
 </head>
 <body>
 
-  <!-- Nav — anima style: logo left, center links with underscore hover, contact right -->
+  <!-- ============================================================
+       NAVIGATION
+       Fixed, transparent -> scrolled semi-transparent (no blur)
+       Logo left, center links with _underscore hover, Contact right
+       ============================================================ -->
   <header class="site-nav" id="site-nav">
     <div class="site-nav__inner">
-      <a href="/" class="site-nav__logo" aria-label="PixelMixers — Home">
+      <a href="/" class="site-nav__logo" aria-label="PixelMixers Home">
         <svg class="logo-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <rect width="28" height="28" rx="6" fill="currentColor"/>
           <rect x="6" y="6" width="7" height="7" rx="1.5" fill="#f5f6f6"/>
@@ -66,7 +70,10 @@
 
   <main>
 
-    <!-- Hero — full viewport, dark bg, content at bottom -->
+    <!-- ============================================================
+         HERO — full viewport, dark background with organic SVG shapes
+         Content aligned to BOTTOM, floating tag labels at edges
+         ============================================================ -->
     <section class="hero">
       <div class="hero__bg" aria-hidden="true">
         <svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
@@ -79,11 +86,14 @@
           <circle cx="1300" cy="200" r="80" fill="#0d120a" opacity="0.3"/>
         </svg>
       </div>
+
+      <!-- Floating tag labels with thin border frames -->
       <div class="hero__tags" aria-hidden="true">
         <span class="hero__tag hero__tag--tl" data-reveal="fade-in">Design's boundless potential</span>
         <span class="hero__tag hero__tag--tr" data-reveal="fade-in" data-reveal-delay="200">Technology's timeless precision</span>
         <span class="hero__tag hero__tag--bl" data-reveal="fade-in" data-reveal-delay="400">Craft's drive for beauty</span>
       </div>
+
       <div class="hero__content">
         <h1 class="hero__heading" data-reveal="fade-up">Mixing pixels<br>into remarkable<br>websites</h1>
         <p class="hero__sub" data-reveal="fade-up" data-reveal-delay="150">
@@ -96,10 +106,18 @@
           </a>
         </div>
       </div>
+
+      <!-- Bottom border line -->
+      <div class="hero__bottom-line" aria-hidden="true"></div>
     </section>
 
-    <!-- 001/ We are your creative partner -->
+
+    <!-- ============================================================
+         001/ ABOUT — We are your creative partner
+         Split: heading + body + bullets left, image right
+         ============================================================ -->
     <section class="section">
+      <div class="glow-ellipse glow-ellipse--yellow glow-ellipse--top-right" aria-hidden="true"></div>
       <div class="container">
         <div class="split">
           <div data-reveal="fade-up">
@@ -113,7 +131,7 @@
               <li>We don't cut corners, we sweat the details</li>
               <li>We work side-by-side to turn ideas into digital experiences</li>
             </ul>
-            <div style="margin-top:var(--space-8)">
+            <div style="margin-top: var(--space-8)">
               <a href="/the-studio/" class="btn">
                 <span class="btn__text">Read more about us</span>
                 <span class="btn__icon"></span>
@@ -122,12 +140,12 @@
           </div>
           <div data-reveal="fade-up" data-reveal-delay="150">
             <div class="hero-image-section">
-              <svg viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
-                <rect width="640" height="400" fill="#E8E4DA"/>
-                <circle cx="320" cy="180" r="120" fill="#D0CCC0" opacity="0.5"/>
-                <path d="M100 280 Q250 180 400 260 Q550 340 640 240 L640 400 L0 400Z" fill="#C8C0B0" opacity="0.4"/>
-                <rect x="220" y="100" width="200" height="8" rx="4" fill="#B8B0A0" opacity="0.3"/>
-                <rect x="260" y="120" width="120" height="6" rx="3" fill="#B8B0A0" opacity="0.2"/>
+              <svg viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg">
+                <rect width="640" height="480" fill="#E8E4DA"/>
+                <circle cx="320" cy="210" r="120" fill="#D0CCC0" opacity="0.5"/>
+                <path d="M100 340 Q250 240 400 320 Q550 400 640 300 L640 480 L0 480Z" fill="#C8C0B0" opacity="0.4"/>
+                <rect x="220" y="120" width="200" height="8" rx="4" fill="#B8B0A0" opacity="0.3"/>
+                <rect x="260" y="140" width="120" height="6" rx="3" fill="#B8B0A0" opacity="0.2"/>
               </svg>
             </div>
           </div>
@@ -135,8 +153,13 @@
       </div>
     </section>
 
-    <!-- 002/ How we work -->
+
+    <!-- ============================================================
+         002/ HOW WE WORK — Three process steps
+         Text left + image right, separated by 1px borders
+         ============================================================ -->
     <section class="section">
+      <div class="glow-ellipse glow-ellipse--lavender glow-ellipse--bottom-left" aria-hidden="true"></div>
       <div class="container">
         <div class="section-label" data-reveal="fade-in"><span>002/</span><span>Our process</span></div>
 
@@ -172,19 +195,24 @@
       </div>
     </section>
 
-    <!-- 003/ Who we work with -->
+
+    <!-- ============================================================
+         003/ WHO WE WORK WITH
+         Split: heading + body + btn left, stacked audience cards right
+         ============================================================ -->
     <section class="section">
+      <div class="glow-ellipse glow-ellipse--pink glow-ellipse--top-left" aria-hidden="true"></div>
       <div class="container">
         <div class="split">
           <div data-reveal="fade-up">
             <div class="section-label"><span>003/</span><span>Who we work with</span></div>
             <h2 class="s-heading">Who we work with</h2>
             <div class="s-body">
-              <p>We work with startups, growing businesses, and creative professionals to build the next generation of web experiences — by design, not by chance.</p>
+              <p>We work with startups, growing businesses, and creative professionals to build the next generation of web experiences &mdash; by design, not by chance.</p>
             </div>
-            <div style="margin-top:var(--space-8)">
+            <div style="margin-top: var(--space-8)">
               <a href="/services/" class="btn">
-                <span class="btn__text">Learn more about our methodology</span>
+                <span class="btn__text">Learn more</span>
                 <span class="btn__icon"></span>
               </a>
             </div>
@@ -205,7 +233,7 @@
             <div class="audience-item">
               <h3 class="audience-item__title">Businesses</h3>
               <div>
-                <p class="audience-item__body">Growing companies that need more than a brochure — e-commerce, CMS, conversion optimization, and proper architecture.</p>
+                <p class="audience-item__body">Growing companies that need more than a brochure &mdash; e-commerce, CMS, conversion optimization, and proper architecture.</p>
                 <div class="audience-item__link">
                   <a href="/services/#business" class="btn btn-sm">
                     <span class="btn__text">Read more</span>
@@ -231,8 +259,12 @@
       </div>
     </section>
 
-    <!-- 004/ Selected work -->
+
+    <!-- ============================================================
+         004/ SELECTED WORK — 2x2 grid, rounded images, discover pills
+         ============================================================ -->
     <section class="section">
+      <div class="glow-ellipse glow-ellipse--sage glow-ellipse--bottom-right" aria-hidden="true"></div>
       <div class="container">
         <div class="section-label" data-reveal="fade-in"><span>004/</span><span>Our work</span></div>
         <h2 class="s-heading" data-reveal="fade-up">Selected work</h2>
@@ -269,7 +301,7 @@
               <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="320" fill="#2A2014"/><path d="M0 200 Q120 100 240 180 Q360 260 480 150 L480 320 L0 320Z" fill="#4A3A24" opacity="0.5"/><circle cx="360" cy="80" r="30" fill="#5A4A34" opacity="0.4"/></svg>
             </div>
             <div class="work-item__info">
-              <div class="work-item__title">Terrain — Experimental</div>
+              <div class="work-item__title">Terrain Experimental</div>
               <div class="work-item__tag">Artform / WebGL</div>
               <span class="btn btn-sm btn--pill">
                 <span class="btn__text">Discover</span>
@@ -282,7 +314,7 @@
               <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="320" fill="#1A0F2E"/><circle cx="200" cy="150" r="70" fill="#2A1F4E" opacity="0.4"/><circle cx="310" cy="180" r="50" fill="#3A1F5E" opacity="0.3"/></svg>
             </div>
             <div class="work-item__info">
-              <div class="work-item__title">Dusk — Generative Art</div>
+              <div class="work-item__title">Dusk Generative Art</div>
               <div class="work-item__tag">Artform / Canvas API</div>
               <span class="btn btn-sm btn--pill">
                 <span class="btn__text">Discover</span>
@@ -292,7 +324,7 @@
           </a>
         </div>
 
-        <div style="margin-top:var(--space-10)">
+        <div style="margin-top: var(--space-10)">
           <a href="/our-work/" class="btn">
             <span class="btn__text">View all projects</span>
             <span class="btn__icon"></span>
@@ -301,8 +333,12 @@
       </div>
     </section>
 
-    <!-- 005/ Services teaser -->
+
+    <!-- ============================================================
+         005/ SERVICES TEASER — simple two-column split
+         ============================================================ -->
     <section class="section">
+      <div class="glow-ellipse glow-ellipse--yellow glow-ellipse--bottom-left" aria-hidden="true"></div>
       <div class="container">
         <div class="split">
           <div data-reveal="fade-up">
@@ -311,7 +347,7 @@
             <div class="s-body">
               <p>Four tiers, each designed around a different kind of ambition. Starter sites from &euro;1,200. Business builds from &euro;4,500. Premium web apps from &euro;12,000. And bespoke digital artforms.</p>
             </div>
-            <div style="margin-top:var(--space-8)">
+            <div style="margin-top: var(--space-8)">
               <a href="/services/" class="btn">
                 <span class="btn__text">See all services</span>
                 <span class="btn__icon"></span>
@@ -320,13 +356,13 @@
           </div>
           <div data-reveal="fade-up" data-reveal-delay="150">
             <div class="hero-image-section">
-              <svg viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
-                <rect width="640" height="400" fill="#E0E4E8"/>
-                <rect x="60" y="40" width="520" height="280" rx="16" fill="#D0D4D8" opacity="0.4"/>
-                <circle cx="320" cy="350" r="16" fill="#C0C4C8" opacity="0.5"/>
-                <rect x="180" y="120" width="280" height="8" rx="4" fill="#B0B4B8" opacity="0.3"/>
-                <rect x="220" y="145" width="200" height="6" rx="3" fill="#B0B4B8" opacity="0.2"/>
-                <rect x="140" y="200" width="360" height="60" rx="8" fill="#C0C8D0" opacity="0.2"/>
+              <svg viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg">
+                <rect width="640" height="480" fill="#E0E4E8"/>
+                <rect x="60" y="50" width="520" height="320" rx="16" fill="#D0D4D8" opacity="0.4"/>
+                <circle cx="320" cy="420" r="16" fill="#C0C4C8" opacity="0.5"/>
+                <rect x="180" y="160" width="280" height="8" rx="4" fill="#B0B4B8" opacity="0.3"/>
+                <rect x="220" y="185" width="200" height="6" rx="3" fill="#B0B4B8" opacity="0.2"/>
+                <rect x="140" y="240" width="360" height="60" rx="8" fill="#C0C8D0" opacity="0.2"/>
               </svg>
             </div>
           </div>
@@ -334,7 +370,10 @@
       </div>
     </section>
 
-    <!-- 006/ Meet our team -->
+
+    <!-- ============================================================
+         006/ MEET OUR TEAM — 3 portrait photos in a row
+         ============================================================ -->
     <section class="section">
       <div class="container">
         <div class="section-label" data-reveal="fade-in"><span>006/</span><span>The team</span></div>
@@ -366,22 +405,25 @@
       </div>
     </section>
 
-    <!-- 007/ Testimonials -->
+
+    <!-- ============================================================
+         007/ TESTIMONIALS — centered quote with dots
+         ============================================================ -->
     <section class="section testimonial-section">
       <div class="container container--text text-center">
-        <div class="section-label" style="justify-content:center" data-reveal="fade-in"><span>007/</span></div>
+        <div class="section-label" style="justify-content: center" data-reveal="fade-in"><span>007/</span><span>Testimonials</span></div>
 
-        <div class="testimonial-slide is-active">
-          <p class="testimonial-quote">"PixelMixers didn't just build us a website — they built us a brand presence that converts."</p>
-          <p class="testimonial-author">— Martina Horakova, CEO, GreenLeaf Botanicals</p>
+        <div class="testimonial-slide is-active" data-reveal="fade-up">
+          <p class="testimonial-quote">"PixelMixers didn't just build us a website &mdash; they built us a brand presence that converts."</p>
+          <p class="testimonial-author">&mdash; Martina Horakova, CEO, GreenLeaf Botanicals</p>
         </div>
         <div class="testimonial-slide">
           <p class="testimonial-quote">"They pushed us to think bigger and delivered something we didn't think was possible."</p>
-          <p class="testimonial-author">— David Park, Founder, Nova Commerce</p>
+          <p class="testimonial-author">&mdash; David Park, Founder, Nova Commerce</p>
         </div>
         <div class="testimonial-slide">
           <p class="testimonial-quote">"PixelMixers understood the brief immediately and executed it flawlessly."</p>
-          <p class="testimonial-author">— Ingrid Svensson, Art Director, Terrain Studio</p>
+          <p class="testimonial-author">&mdash; Ingrid Svensson, Art Director, Terrain Studio</p>
         </div>
 
         <div class="testimonial-dots">
@@ -394,7 +436,10 @@
 
   </main>
 
-  <!-- Footer — full viewport dark with marquee and circular CTA -->
+
+  <!-- ============================================================
+       FOOTER — full viewport dark, marquee, circular CTA, links
+       ============================================================ -->
   <footer class="site-footer">
     <div class="footer-marquee" aria-hidden="true">
       <div class="footer-marquee__track">
