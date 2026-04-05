@@ -3,26 +3,47 @@
   --font-body:    'Inter', sans-serif;
   --font-mono:    'JetBrains Mono', monospace;
 
-  --text-xs:   clamp(0.70rem, 0.65rem + 0.25vw, 0.75rem);
-  --text-sm:   clamp(0.80rem, 0.75rem + 0.25vw, 0.875rem);
-  --text-base: clamp(0.9rem, 0.85rem + 0.25vw, 1rem);
-  --text-md:   clamp(1rem, 0.95rem + 0.30vw, 1.125rem);
-  --text-lg:   clamp(1.1rem, 1rem + 0.50vw, 1.25rem);
-  --text-xl:   clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
-  --text-2xl:  clamp(1.5rem, 1.2rem + 1.25vw, 2rem);
-  --text-3xl:  clamp(2rem, 1.5rem + 2vw, 3rem);
-  --text-4xl:  clamp(2.5rem, 1.8rem + 3vw, 4.5rem);
-  --text-5xl:  clamp(3rem, 2rem + 4.5vw, 6.5rem);
-  --text-6xl:  clamp(4rem, 2.5rem + 7vw, 9rem);
+  /* Type scale — larger, more dramatic like anima.ai */
+  --text-xs:   clamp(0.65rem, 0.6rem + 0.2vw, 0.72rem);
+  --text-sm:   clamp(0.75rem, 0.7rem + 0.2vw, 0.82rem);
+  --text-base: clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
+  --text-md:   clamp(1.05rem, 0.95rem + 0.4vw, 1.2rem);
+  --text-lg:   clamp(1.2rem, 1rem + 0.7vw, 1.45rem);
+  --text-xl:   clamp(1.4rem, 1.1rem + 1vw, 1.75rem);
+  --text-2xl:  clamp(1.8rem, 1.3rem + 1.8vw, 2.5rem);
+  --text-3xl:  clamp(2.2rem, 1.5rem + 3vw, 3.8rem);
+  --text-4xl:  clamp(2.8rem, 1.8rem + 4.5vw, 5.5rem);
+  --text-5xl:  clamp(3.5rem, 2rem + 6vw, 8rem);
+  --text-6xl:  clamp(5rem, 3rem + 8vw, 11rem);
 
-  --leading-tight:   1.1;
-  --leading-snug:    1.25;
-  --leading-normal:  1.5;
-  --leading-relaxed: 1.7;
+  /* Line heights */
+  --leading-tight:   1.05;
+  --leading-snug:    1.2;
+  --leading-normal:  1.6;
+  --leading-relaxed: 1.75;
 
-  --tracking-tight:  -0.03em;
+  /* Letter spacing */
+  --tracking-tight:  -0.04em;
   --tracking-normal:  0em;
-  --tracking-wide:    0.05em;
-  --tracking-wider:   0.10em;
-  --tracking-widest:  0.20em;
+  --tracking-wide:    0.06em;
+  --tracking-wider:   0.12em;
+  --tracking-widest:  0.22em;
+}
+
+/* Global heading styles */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+}
+
+/* Body text — slightly lighter for that airy feel */
+body {
+  font-weight: 300;
+  letter-spacing: 0.005em;
+}
+
+p {
+  line-height: var(--leading-relaxed);
 }
